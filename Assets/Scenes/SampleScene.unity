@@ -122,6 +122,26 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &227505945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2562637f396e4c10acd3fa9926b53a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enabled: 1
+  label: Slope
+  blendMode: 0
+  opacity: 100
+  passIndex: 1
+  minMax: {x: 0, y: 90}
+  minFalloff: 90
+  maxFalloff: 90
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,30 +296,10 @@ MonoBehaviour:
   blendMode: 0
   opacity: 100
   passIndex: 0
-  min: 21.9
+  min: 15
   minFalloff: 1
   max: 2000
   maxFalloff: 1
---- !u!114 &370887034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2562637f396e4c10acd3fa9926b53a12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enabled: 1
-  label: Slope
-  blendMode: 0
-  opacity: 100
-  passIndex: 1
-  minMax: {x: 0, y: 80}
-  minFalloff: 5
-  maxFalloff: 5
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,28 +437,8 @@ MonoBehaviour:
   passIndex: 0
   min: 0.63
   minFalloff: 0.001
-  max: 3.2
+  max: 1.25
   maxFalloff: 0.001
---- !u!114 &549786067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2562637f396e4c10acd3fa9926b53a12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enabled: 1
-  label: Slope
-  blendMode: 1
-  opacity: 100
-  passIndex: 1
-  minMax: {x: 81, y: 90}
-  minFalloff: 0.001
-  maxFalloff: 9
 --- !u!114 &561134071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,10 +456,93 @@ MonoBehaviour:
   blendMode: 0
   opacity: 100
   passIndex: 0
-  min: 4.5
-  minFalloff: 5
-  max: 15
-  maxFalloff: 0.001
+  min: 1.5
+  minFalloff: 1
+  max: 5
+  maxFalloff: 5
+--- !u!1 &604687929
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 604687932}
+  - component: {fileID: 604687931}
+  - component: {fileID: 604687930}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!23 &604687930
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604687929}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &604687931
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604687929}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &604687932
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604687929}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,13 +606,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enabled: 1
   label: Noise
-  blendMode: 0
+  blendMode: 3
   opacity: 100
   passIndex: 4
-  noiseType: 0
+  noiseType: 1
   noiseScale: 27.3
   noiseOffset: {x: 0, y: 0}
-  levels: {x: 0, y: 1}
+  levels: {x: 0, y: 0.9999999}
 --- !u!114 &1098862439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -567,9 +630,9 @@ MonoBehaviour:
   blendMode: 0
   opacity: 100
   passIndex: 0
-  min: 0.63
+  min: 4.08
   minFalloff: 0.001
-  max: 2000.03
+  max: 47.22
   maxFalloff: 0.001
 --- !u!1 &1244333462
 GameObject:
@@ -587,6 +650,7 @@ GameObject:
   - component: {fileID: 1244333467}
   - component: {fileID: 1244333469}
   - component: {fileID: 1244333470}
+  - component: {fileID: 1244333471}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -606,7 +670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc5d1f97e7c4b4849a0ae59387431940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  depth: 50
+  depth: 30
   width: 257
   height: 257
   startHeight: 0
@@ -614,41 +678,138 @@ MonoBehaviour:
   minHeightAbs: 0.01
   capas:
   - name: Base
-    scale: 6.86
+    scale: 4
     operation: 0
     jumps: []
     maxCap: 1
     minCap: 0
+    capSet: 0
     capType: 0
-    heightOffset: -0.22
+    heightOffset: -0.3
     weight: 1
+    cut: 0
+    noiseMask:
+      enabled: 0
+      scale: 0
+      maxCap: 0
+      minCap: 0
+      operation: 0
+      heightOffset: 0
+      weight: 0
   - name: Base
-    scale: 19.6
-    operation: 1
+    scale: 8
+    operation: 0
     jumps: []
     maxCap: 1
     minCap: 0
+    capSet: 0
     capType: 0
-    heightOffset: 0
-    weight: 0.136
+    heightOffset: -1.83
+    weight: 0.432
+    cut: 1
+    noiseMask:
+      enabled: 1
+      scale: 0
+      maxCap: 1
+      minCap: 0
+      operation: 2
+      heightOffset: 5
+      weight: 2
   - name: Base
-    scale: 17.64
+    scale: 12
+    operation: 2
+    jumps: []
+    maxCap: 1
+    minCap: 0
+    capSet: 0
+    capType: 0
+    heightOffset: 1
+    weight: 1
+    cut: 0
+    noiseMask:
+      enabled: 0
+      scale: 6
+      maxCap: 1
+      minCap: 0
+      operation: 1
+      heightOffset: 0
+      weight: 1
+  - name: Base
+    scale: 10
     operation: 0
     jumps: []
-    maxCap: 0
+    maxCap: 1
     minCap: 0
-    capType: 0
-    heightOffset: 0
-    weight: 0.148
+    capSet: 0
+    capType: 1
+    heightOffset: -0.5
+    weight: 1
+    cut: 0
+    noiseMask:
+      enabled: 0
+      scale: 5
+      maxCap: 1
+      minCap: 0
+      operation: 0
+      heightOffset: -0.12
+      weight: 1
   - name: Base
-    scale: 5.23
+    scale: 2
     operation: 3
     jumps: []
     maxCap: 1
     minCap: 0
+    capSet: 0
+    capType: 1
+    heightOffset: 0.04
+    weight: 1
+    cut: 0
+    noiseMask:
+      enabled: 0
+      scale: 5
+      maxCap: 1
+      minCap: 0
+      operation: 0
+      heightOffset: 4
+      weight: 1
+  - name: Base
+    scale: 10
+    operation: 5
+    jumps: []
+    maxCap: 1
+    minCap: 0
+    capSet: 0
+    capType: 1
+    heightOffset: 4
+    weight: 0.5
+    cut: 0
+    noiseMask:
+      enabled: 0
+      scale: 5
+      maxCap: 1
+      minCap: 0
+      operation: 2
+      heightOffset: 4
+      weight: 1
+  - name: Base
+    scale: 2
+    operation: 0
+    jumps: []
+    maxCap: 0.8
+    minCap: 0
+    capSet: 0.2
     capType: 0
-    heightOffset: -0.05
-    weight: 0.148
+    heightOffset: -0.6
+    weight: 1
+    cut: 1
+    noiseMask:
+      enabled: 0
+      scale: 5
+      maxCap: 1
+      minCap: 0
+      operation: 2
+      heightOffset: 4
+      weight: 1
   newOffsets: 0
 --- !u!154 &1244333464
 TerrainCollider:
@@ -758,27 +919,27 @@ MonoBehaviour:
   - enabled: 1
     layer: {fileID: 8574412962073106934, guid: c52ad77efecd38146bfb167ad0f38daf, type: 2}
     modifierStack:
+    - {fileID: 227505945}
     - {fileID: 1076344076}
-    - {fileID: 2065222015}
     - {fileID: 358109156}
   - enabled: 1
     layer: {fileID: 8574412962073106934, guid: 69debc15b685aef4aa7bb2783ddd8a2b, type: 2}
     modifierStack:
     - {fileID: 1820338270}
-    - {fileID: 549786067}
-  - enabled: 1
-    layer: {fileID: 8574412962073106934, guid: a026f67c6452bb7488422ec75c67c660, type: 2}
-    modifierStack:
-    - {fileID: 561134071}
-    - {fileID: 370887034}
   - enabled: 1
     layer: {fileID: 8574412962073106934, guid: 9a73362259799e748b5f32ee4d5b9f54, type: 2}
     modifierStack:
     - {fileID: 427977539}
     - {fileID: 1288560780}
   - enabled: 1
+    layer: {fileID: 8574412962073106934, guid: a026f67c6452bb7488422ec75c67c660, type: 2}
+    modifierStack:
+    - {fileID: 561134071}
+  - enabled: 1
     layer: {fileID: 8574412962073106934, guid: 0cb80391d22817b42a6231c64293ae96, type: 2}
     modifierStack:
+    - {fileID: 1649958021}
+    - {fileID: 1589405535}
     - {fileID: 1098862439}
   - enabled: 1
     layer: {fileID: 8574412962073106934, guid: 3d81b9bfeafeb1f40b4d3c7d03d1e108, type: 2}
@@ -791,8 +952,8 @@ MonoBehaviour:
   terrainListeners:
   - {fileID: 1244333467}
   bounds:
-    m_Center: {x: 128.5, y: 25, z: 128.5}
-    m_Extent: {x: 128.5, y: 25, z: 128.5}
+    m_Center: {x: 128.5, y: 15, z: 128.5}
+    m_Extent: {x: 128.5, y: 15, z: 128.5}
   filterShader: {fileID: 4800000, guid: 0f44df78e3d64d9cb2616cac3d84cb77, type: 3}
 --- !u!114 &1244333469
 MonoBehaviour:
@@ -806,8 +967,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a769de59e8101b449acb3a43d85bd56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  circleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   riverNumber: 16
-  calculate: 0
+  riverMinHeight: 15
+  riverMaxHeight: 7
 --- !u!114 &1244333470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,8 +983,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9071f83067e2a414997b7ace031f1175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cilinderMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
-  calculate: 0
+  minHeight: 1
+  coldHeight: 7
+  forestHeight: 3
+  maxSeaHeight: 1.5
+  maxDistanceRiver: 15
+  maxDistanceDelta: 30
+  circleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1244333471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244333462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bb364b5b7f4011408f48a21dc70a0ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  river: []
+  resources: []
 --- !u!114 &1288560780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -839,7 +1021,7 @@ MonoBehaviour:
   blendMode: 4
   opacity: 100
   passIndex: 1
-  minMax: {x: 0, y: 19.875}
+  minMax: {x: 0, y: 20}
   minFalloff: 10
   maxFalloff: 10
 --- !u!114 &1506057535
@@ -861,8 +1043,49 @@ MonoBehaviour:
   passIndex: 0
   min: 0
   minFalloff: 1
-  max: 10
+  max: 1
   maxFalloff: 1
+--- !u!114 &1589405535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e07d49e90874d70b9937cb753327a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enabled: 1
+  label: Noise
+  blendMode: 0
+  opacity: 50
+  passIndex: 4
+  noiseType: 0
+  noiseScale: 50
+  noiseOffset: {x: 0, y: 0}
+  levels: {x: 0.5, y: 1}
+--- !u!114 &1649958021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2562637f396e4c10acd3fa9926b53a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enabled: 1
+  label: Slope
+  blendMode: 1
+  opacity: 99.4
+  passIndex: 1
+  minMax: {x: 38.405174, y: 90}
+  minFalloff: 10
+  maxFalloff: 10
 --- !u!114 &1820338270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -877,33 +1100,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enabled: 1
   label: Height
-  blendMode: 3
-  opacity: 100
-  passIndex: 0
-  min: 17.68
-  minFalloff: 5
-  max: 30
-  maxFalloff: 5
---- !u!114 &2065222015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2562637f396e4c10acd3fa9926b53a12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enabled: 1
-  label: Slope
   blendMode: 0
   opacity: 100
-  passIndex: 1
-  minMax: {x: 0, y: 29.25}
-  minFalloff: 10
-  maxFalloff: 10
+  passIndex: 0
+  min: 10.21
+  minFalloff: 5
+  max: 50
+  maxFalloff: 5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -912,3 +1115,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1244333466}
+  - {fileID: 604687932}

@@ -9,6 +9,8 @@ TagManager:
   - FertileField
   - ColdField
   - SeaField
+  - ForestField
+  - Delta
   layers:
   - Default
   - TransparentFX

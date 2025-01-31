@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class LocatorFunctions : MonoBehaviour
 {
-    protected float NearestOther(Vector3 pos,List<GameObject> otherPos,bool noHight=false)
+    protected float NearestOtherResource(Vector3 pos,List<ResourceInfo> otherPos,bool noHight=false)
     {
         float minDistance = float.PositiveInfinity;
         if (otherPos.Count <= 0)
         {
             return float.PositiveInfinity;
         }
-        foreach (GameObject obj in otherPos)
+        foreach (ResourceInfo obj in otherPos)
         {
             var dist = (obj.transform.position - pos).magnitude; 
             if (dist < minDistance)
@@ -37,6 +37,35 @@ public class LocatorFunctions : MonoBehaviour
             if (noHight)
             {
                 dist = (new Vector3(obj.transform.position.x,0,obj.transform.position.z)  - new Vector3(pos.x, 0, pos.z)).magnitude;
+            }
+            else
+            {
+                dist = (obj.transform.position - pos).magnitude;
+            }
+            if (dist < minDistance)
+            {
+                nearest = obj;
+                minDistance = dist;
+            }
+        }
+        return minDistance;
+    }
+
+    protected float NearestDelta(Vector3 pos, bool noHight = false)
+    {
+        var arr = GameObject.FindGameObjectsWithTag("Delta");
+        if (arr.Length <= 0)
+        {
+            return float.PositiveInfinity;
+        }
+        float minDistance = float.PositiveInfinity;
+        GameObject nearest = null;
+        foreach (GameObject obj in arr)
+        {
+            float dist = 0;
+            if (noHight)
+            {
+                dist = (new Vector3(obj.transform.position.x, 0, obj.transform.position.z) - new Vector3(pos.x, 0, pos.z)).magnitude;
             }
             else
             {

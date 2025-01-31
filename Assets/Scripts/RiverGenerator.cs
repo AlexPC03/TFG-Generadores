@@ -4,23 +4,20 @@ using UnityEngine;
 
 public class RiverGenerator : MonoBehaviour
 {
+    public Mesh circleMesh;
     [Range(1,16)]
     public int riverNumber;
-    public bool calculate;
-    List<GameObject> riverStart;
+    public float riverMinHeight;
+    public float riverMaxHeight;
+    private bool calculate;
     Terrain terrain;
+    private ElementManagement manager;
 
     // Start is called before the first frame update
     void Start()
     {
         calculate=true;
-        riverStart = new List<GameObject>();
-        for(int r=0;r<riverNumber;r++)
-        {
-            riverStart.Add(new GameObject("River"));
-            riverStart[r].tag = "River";
-            riverStart[r].AddComponent<LineRenderer>();
-        }
+        manager=GetComponent<ElementManagement>();
     }
 
     private void LateUpdate()
@@ -28,71 +25,76 @@ public class RiverGenerator : MonoBehaviour
         if (calculate)
         {
             calculate = false;
-
+            for (int r = 0; r < riverNumber; r++)
+            {
+                manager.river.Add(new GameObject("River"));
+                manager.river[r].tag = "River";
+                manager.river[r].AddComponent<LineRenderer>();
+            }
             // Obtener la referencia al terreno activo
             terrain = GetComponent<Terrain>();
             TerrainData terrainData = terrain.terrainData;
             // Calcular el punto más alto del terreno
-            float highestPoint = GetHighestPoint(terrain);
+            //float highestPoint = GetHighestPoint(terrain);
             for (int r = 0; r < riverNumber; r++)
             {
-                GameObject river = riverStart[r];
+                GameObject river = manager.river[r];
                 RaycastHit hit;
                 for(int i=0; i < terrainData.size.z; i++)
                 {
                     switch (r)
                     {
                         case 1:
-                            Physics.Raycast(transform.position + new Vector3(i, highestPoint - Random.Range(5f,10f), terrainData.size.z / 2), Vector3.forward, out hit, terrainData.size.z/2);
+                            Physics.Raycast(transform.position + new Vector3(i, Random.Range(riverMinHeight, riverMaxHeight), terrainData.size.z / 2), Vector3.forward, out hit, terrainData.size.z / 6);
                             break;
                         case 2:
-                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x / 2, highestPoint - Random.Range(5f, 10f), i), Vector3.right, out hit, terrainData.size.x);
+                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x / 2, Random.Range(riverMinHeight, riverMaxHeight), i), Vector3.right, out hit, terrainData.size.x / 6);
                             break;
                         case 3:
-                            Physics.Raycast(transform.position + new Vector3(i, highestPoint - Random.Range(5f, 10f), terrainData.size.z / 2), -Vector3.forward, out hit, terrainData.size.z);
+                            Physics.Raycast(transform.position + new Vector3(i, Random.Range(riverMinHeight, riverMaxHeight), terrainData.size.z / 2), -Vector3.forward, out hit, terrainData.size.z / 6);
                             break;
                         case 4:
-                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x / 2, highestPoint - Random.Range(5f, 10f), i), -Vector3.right, out hit, terrainData.size.x);
+                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x / 2, Random.Range(riverMinHeight, riverMaxHeight), i), -Vector3.right, out hit, terrainData.size.x / 6);
                             break;
                         case 5:
-                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x-i, highestPoint - Random.Range(5f, 10f), terrainData.size.z / 2), Vector3.forward, out hit, terrainData.size.z);
+                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x-i, Random.Range(riverMinHeight, riverMaxHeight), terrainData.size.z / 2), Vector3.forward, out hit, terrainData.size.z / 6);
                             break;
                         case 6:
-                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x / 2, highestPoint - Random.Range(5f, 10f), terrainData.size.z-i), Vector3.right, out hit, terrainData.size.x);
+                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x / 2, Random.Range(riverMinHeight, riverMaxHeight), terrainData.size.z-i), Vector3.right, out hit, terrainData.size.x / 6);
                             break;
                         case 7:
-                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x-i, highestPoint - Random.Range(5f, 10f), terrainData.size.z / 2), -Vector3.forward, out hit, terrainData.size.z);
+                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x-i, Random.Range(riverMinHeight, riverMaxHeight), terrainData.size.z / 2), -Vector3.forward, out hit, terrainData.size.z / 6);
                             break;
                         case 8:
-                            Physics.Raycast(transform.position + new Vector3(terrainData.size.z / 2, highestPoint - Random.Range(5f, 10f), terrainData.size.z-i), -Vector3.right, out hit, terrainData.size.x);
+                            Physics.Raycast(transform.position + new Vector3(terrainData.size.z / 2, Random.Range(riverMinHeight, riverMaxHeight), terrainData.size.z-i), -Vector3.right, out hit, terrainData.size.x / 6);
                             break;
 
                         case 9:
-                            Physics.Raycast(transform.position + new Vector3(i, highestPoint - Random.Range(5f, 10f), 15), Vector3.forward, out hit, terrainData.size.z);
+                            Physics.Raycast(transform.position + new Vector3(i, Random.Range(riverMinHeight, riverMaxHeight), 15), Vector3.forward, out hit, terrainData.size.z);
                             break;
                         case 10:
-                            Physics.Raycast(transform.position + new Vector3(15, highestPoint - Random.Range(5f, 10f), i), Vector3.right, out hit, terrainData.size.x);
+                            Physics.Raycast(transform.position + new Vector3(15, Random.Range(riverMinHeight, riverMaxHeight), i), Vector3.right, out hit, terrainData.size.x);
                             break;
                         case 11:
-                            Physics.Raycast(transform.position + new Vector3(i, highestPoint - Random.Range(5f, 10f), terrainData.size.z - 15), -Vector3.forward, out hit, terrainData.size.z);
+                            Physics.Raycast(transform.position + new Vector3(i, Random.Range(riverMinHeight, riverMaxHeight), terrainData.size.z - 15), -Vector3.forward, out hit, terrainData.size.z);
                             break;
                         case 12:
-                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x - 15, highestPoint - Random.Range(5f, 10f), i), -Vector3.right, out hit, terrainData.size.x);
+                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x - 15, Random.Range(riverMinHeight, riverMaxHeight), i), -Vector3.right, out hit, terrainData.size.x);
                             break;
                         case 13:
-                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x - i, highestPoint - Random.Range(5f, 10f), 10), Vector3.forward, out hit, terrainData.size.z);
+                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x - i, Random.Range(riverMinHeight, riverMaxHeight), 10), Vector3.forward, out hit, terrainData.size.z);
                             break;
                         case 14:
-                            Physics.Raycast(transform.position + new Vector3(10, highestPoint - Random.Range(5f, 10f), terrainData.size.z - i), Vector3.right, out hit, terrainData.size.x);
+                            Physics.Raycast(transform.position + new Vector3(10, Random.Range(riverMinHeight, riverMaxHeight), terrainData.size.z - i), Vector3.right, out hit, terrainData.size.x);
                             break;
                         case 15:
-                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x - i, highestPoint - Random.Range(5f, 10f), terrainData.size.z - 10), -Vector3.forward, out hit, terrainData.size.z);
+                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x - i, Random.Range(riverMinHeight, riverMaxHeight), terrainData.size.z - 10), -Vector3.forward, out hit, terrainData.size.z);
                             break;
                         case 16:
-                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x - 10, highestPoint - Random.Range(5f, 10f), terrainData.size.z - i), -Vector3.right, out hit, terrainData.size.x);
+                            Physics.Raycast(transform.position + new Vector3(terrainData.size.x - 10, Random.Range(riverMinHeight, riverMaxHeight), terrainData.size.z - i), -Vector3.right, out hit, terrainData.size.x);
                             break;
                         default:
-                            Physics.Raycast(transform.position + new Vector3(i, highestPoint - Random.Range(5f, 10f), 10), Vector3.forward, out hit, terrainData.size.z);
+                            Physics.Raycast(transform.position + new Vector3(i, Random.Range(riverMinHeight, riverMaxHeight), 10), Vector3.forward, out hit, terrainData.size.z);
                             break;
                     }
                     if (hit.collider != null)
@@ -130,7 +132,7 @@ public class RiverGenerator : MonoBehaviour
                 // Si la pendiente es demasiado baja, detén el flujo
                 if (flowDirection.magnitude < -0.1)
                 {
-                    Vector3 fallbackDirection = FindDirectionAround(hit.point,stepSize,10);
+                    Vector3 fallbackDirection = FindDirectionAround(hit.point,stepSize,20);
                     if (fallbackDirection == Vector3.zero)
                     {
                         Debug.Log("No se encontró una pendiente válida cerca del área plana.");
@@ -144,7 +146,7 @@ public class RiverGenerator : MonoBehaviour
                 Vector3 nextPosition = currentPosition + flowDirection * stepSize;
 
                 // Comprueba si el siguiente punto está más bajo que el actual (para evitar bucles)
-                if (nextPosition.y >= currentPosition.y)
+                if (nextPosition.y >= currentPosition.y || currentPosition.y<=1)
                 {
                     Debug.Log("El flujo del río ha alcanzado un punto plano o ascendente.");
                     break;
@@ -158,19 +160,35 @@ public class RiverGenerator : MonoBehaviour
                 break;
             }
         }
-        // Visualizar el río usando LineRenderer
         for(int n=0;n<riverPath.Count;n++)
         {
             if (n!=0 && n % 5==0)
             {
                 GameObject auxriv=new GameObject("River");
                 auxriv.transform.position = riverPath[n];
+                auxriv.tag = "River";
                 auxriv.transform.parent = startPoint;
-                auxriv.tag="River";
             }
         }
+        if (riverPath[riverPath.Count - 1].y < 1.25 && Physics.Raycast(riverPath[riverPath.Count - 1] + Vector3.up * 0.1f, Vector3.down, 10))
+        {
+            GameObject auxriv = new GameObject("Delta");
+            auxriv.transform.position = riverPath[riverPath.Count - 1];
+            auxriv.tag = "Delta";
+            auxriv.transform.parent = startPoint;
+            MeshFilter mf = auxriv.AddComponent<MeshFilter>();
+            mf.mesh = circleMesh;
+            MeshRenderer mr = auxriv.AddComponent<MeshRenderer>();
+            mr.material = new Material(Shader.Find("Sprites/Default")) { color = Color.cyan };
+            auxriv.transform.localScale = new Vector3(3f, 1, 3f);
+        }
+        // Visualizar el río usando LineRenderer
         startPoint.GetComponent<LineRenderer>().positionCount = riverPath.Count;
         startPoint.GetComponent<LineRenderer>().SetPositions(riverPath.ToArray());
+        if (startPoint.childCount <= 0)
+        {
+            Destroy(startPoint.gameObject);
+        }
     }
 
     Vector3 FindDirectionAround(Vector3 centerPoint, float stepSize,float searchRadius)
@@ -228,5 +246,10 @@ public class RiverGenerator : MonoBehaviour
             }
         }
         return maxHeight;
+    }
+
+    public void Recalculate()
+    {
+        calculate = true;
     }
 }
