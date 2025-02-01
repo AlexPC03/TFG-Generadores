@@ -458,7 +458,7 @@ MonoBehaviour:
   passIndex: 0
   min: 1.5
   minFalloff: 1
-  max: 5
+  max: 6.69
   maxFalloff: 5
 --- !u!1 &604687929
 GameObject:
@@ -630,7 +630,7 @@ MonoBehaviour:
   blendMode: 0
   opacity: 100
   passIndex: 0
-  min: 4.08
+  min: 4
   minFalloff: 0.001
   max: 47.22
   maxFalloff: 0.001
@@ -795,11 +795,11 @@ MonoBehaviour:
     scale: 2
     operation: 0
     jumps: []
-    maxCap: 0.8
+    maxCap: 0.66
     minCap: 0
-    capSet: 0.2
+    capSet: 0.253
     capType: 0
-    heightOffset: -0.6
+    heightOffset: -0.4
     weight: 1
     cut: 1
     noiseMask:
@@ -809,7 +809,83 @@ MonoBehaviour:
       minCap: 0
       operation: 2
       heightOffset: 4
-      weight: 1
+      weight: 0.78
+  - name: Base
+    scale: 0.5
+    operation: 4
+    jumps: []
+    maxCap: 1
+    minCap: 0
+    capSet: 0
+    capType: 0
+    heightOffset: 1
+    weight: 1
+    cut: 0
+    noiseMask:
+      enabled: 0
+      scale: 5
+      maxCap: 1
+      minCap: 0
+      operation: 2
+      heightOffset: 4
+      weight: 0.78
+  - name: Base
+    scale: 3
+    operation: 2
+    jumps: []
+    maxCap: 1
+    minCap: 0
+    capSet: 0
+    capType: 0
+    heightOffset: 0
+    weight: 0.1
+    cut: 0
+    noiseMask:
+      enabled: 0
+      scale: 5
+      maxCap: 1
+      minCap: 0
+      operation: 2
+      heightOffset: 4
+      weight: 0.78
+  - name: Irregular
+    scale: 20
+    operation: 3
+    jumps: []
+    maxCap: 1
+    minCap: 0
+    capSet: 0
+    capType: 0
+    heightOffset: 1
+    weight: 0.5
+    cut: 0
+    noiseMask:
+      enabled: 0
+      scale: 5
+      maxCap: 1
+      minCap: 0
+      operation: 2
+      heightOffset: 4
+      weight: 0.78
+  - name: "Peque\xF1o Ajuste"
+    scale: 0
+    operation: 0
+    jumps: []
+    maxCap: 1
+    minCap: 0
+    capSet: 0
+    capType: 0
+    heightOffset: -0.015
+    weight: 0
+    cut: 0
+    noiseMask:
+      enabled: 0
+      scale: 5
+      maxCap: 1
+      minCap: 0
+      operation: 2
+      heightOffset: 4
+      weight: 0.78
   newOffsets: 0
 --- !u!154 &1244333464
 TerrainCollider:
@@ -969,8 +1045,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   circleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   riverNumber: 16
-  riverMinHeight: 15
-  riverMaxHeight: 7
+  riverMinHeight: 7
+  riverMaxHeight: 15
 --- !u!114 &1244333470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -984,11 +1060,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minHeight: 1
-  coldHeight: 7
-  forestHeight: 3
+  coldHeight: 8.5
+  forestMinHeight: 2
   maxSeaHeight: 1.5
   maxDistanceRiver: 15
-  maxDistanceDelta: 30
+  maxDistanceDelta: 20
   circleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &1244333471
 MonoBehaviour:
@@ -1103,7 +1179,7 @@ MonoBehaviour:
   blendMode: 0
   opacity: 100
   passIndex: 0
-  min: 10.21
+  min: 12
   minFalloff: 5
   max: 50
   maxFalloff: 5

@@ -85,12 +85,14 @@ public class TerrainGenerationPerlinNoise : MonoBehaviour
 
     private List<Vector2> offsets;
     private Vector2[] maskOffsets;
+    [Header("Recalculate")]
     public bool newOffsets;
+
 
     private void Start()
     {
+        newOffsets = true;
         manager=GetComponent<ElementManagement>();
-        ResetOffset();
     }
 
 
@@ -103,9 +105,9 @@ public class TerrainGenerationPerlinNoise : MonoBehaviour
             manager.RemoveElements();
             GetComponent<RiverGenerator>().Recalculate();
             GetComponent<FlatResourceGenerator>().Recalculate();
+            Terrain terrain = GetComponent<Terrain>();
+            terrain.terrainData = GenerateTerrain(terrain.terrainData);
         }
-        Terrain terrain = GetComponent<Terrain>();
-        terrain.terrainData = GenerateTerrain(terrain.terrainData);
     }
 
     private TerrainData GenerateTerrain(TerrainData terrainData)
@@ -277,6 +279,8 @@ public class TerrainGenerationPerlinNoise : MonoBehaviour
         }
         return totalHeight + totalH;
     }
+
+
 
     private void ResetOffset()
     {

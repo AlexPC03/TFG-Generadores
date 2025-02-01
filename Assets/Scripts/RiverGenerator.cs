@@ -119,10 +119,10 @@ public class RiverGenerator : MonoBehaviour
         List<Vector3> riverPath = new List<Vector3>();
         for (int i = 0; i < maxSteps; i++)
         {
-            riverPath.Add(currentPosition);
+            riverPath.Add(currentPosition+Vector3.up*0.1f);
 
             // Realiza un raycast hacia abajo para obtener la normal del terreno
-            if (Physics.Raycast(currentPosition + Vector3.up * 10f, Vector3.down, out RaycastHit hit, Mathf.Infinity))
+            if (Physics.Raycast(currentPosition + Vector3.up * 0.1f, Vector3.down, out RaycastHit hit, Mathf.Infinity))
             {
                 Vector3 normal = hit.normal;
 
@@ -146,7 +146,7 @@ public class RiverGenerator : MonoBehaviour
                 Vector3 nextPosition = currentPosition + flowDirection * stepSize;
 
                 // Comprueba si el siguiente punto está más bajo que el actual (para evitar bucles)
-                if (nextPosition.y >= currentPosition.y || currentPosition.y<=1)
+                if (nextPosition.y >= currentPosition.y || currentPosition.y<=0.6)
                 {
                     Debug.Log("El flujo del río ha alcanzado un punto plano o ascendente.");
                     break;
@@ -170,7 +170,7 @@ public class RiverGenerator : MonoBehaviour
                 auxriv.transform.parent = startPoint;
             }
         }
-        if (riverPath[riverPath.Count - 1].y < 1.25 && Physics.Raycast(riverPath[riverPath.Count - 1] + Vector3.up * 0.1f, Vector3.down, 10))
+        if (riverPath[riverPath.Count - 1].y < 1)
         {
             GameObject auxriv = new GameObject("Delta");
             auxriv.transform.position = riverPath[riverPath.Count - 1];

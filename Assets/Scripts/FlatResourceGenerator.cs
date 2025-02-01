@@ -6,10 +6,11 @@ public class FlatResourceGenerator : LocatorFunctions
 {
     public float minHeight = 1f;
     public float coldHeight=15;
-    public float forestHeight=7.5f;
+    public float forestMinHeight=7.5f;
     public float maxSeaHeight=2.5f;
     public float maxDistanceRiver= 15f;
     public float maxDistanceDelta= 30f;
+    private float forestDistanceMultiplicator= 2.25f;
     private float regionSize = 2.5f; // Tamaño de la región a evaluar (en unidades del terreno)
     private int gridResolution = 5; // Número de puntos en la cuadrícula (más alto, más puntos)
     private float maxSlope = 0.25f; // Máxima inclinación permitida para que la región sea considerada plana
@@ -79,7 +80,7 @@ public class FlatResourceGenerator : LocatorFunctions
                         }
                         else
                         {
-                            if (hit.point.y > forestHeight && (NearestRiver(hit.point, true) <= maxDistanceRiver*2f || NearestDelta(hit.point, true) <= maxDistanceDelta*1.5f))
+                            if (hit.point.y > forestMinHeight && (NearestRiver(hit.point, true) <= maxDistanceRiver* forestDistanceMultiplicator || NearestDelta(hit.point, true) <= maxDistanceDelta* forestDistanceMultiplicator))
                             {
                                 field = new GameObject("ForestField");
                                 field.tag = "ForestField";
