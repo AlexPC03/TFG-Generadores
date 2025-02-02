@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class ResourceInfo : MonoBehaviour
 {
-    List<KingdomController> InterestedKingdoms = new List<KingdomController>();
+    public List<KingdomController> interestedKingdoms = new List<KingdomController>();
 }

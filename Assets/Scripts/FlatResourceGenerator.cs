@@ -10,13 +10,14 @@ public class FlatResourceGenerator : LocatorFunctions
     public float maxSeaHeight=2.5f;
     public float maxDistanceRiver= 15f;
     public float maxDistanceDelta= 30f;
-    private float forestDistanceMultiplicator= 2.25f;
+    public float forestDistanceMultiplicator= 2.25f;
     private float regionSize = 2.5f; // Tamaño de la región a evaluar (en unidades del terreno)
     private int gridResolution = 5; // Número de puntos en la cuadrícula (más alto, más puntos)
     private float maxSlope = 0.25f; // Máxima inclinación permitida para que la región sea considerada plana
     private float fieldDistance = 15f; 
     List<Vector2> flatRegions;
     public Mesh circleMesh;
+    public Mesh boxMesh;
     private bool calculate;
     private ElementManagement manager;
 
@@ -69,13 +70,26 @@ public class FlatResourceGenerator : LocatorFunctions
                     {
                         if (hit.point.y > coldHeight)
                         {
-                            field = new GameObject("ColdField");
-                            field.tag = "ColdField";
-                            MeshFilter mf = field.AddComponent<MeshFilter>();
-                            mf.mesh = circleMesh;
-                            MeshRenderer mr = field.AddComponent<MeshRenderer>();
-                            mr.material = new Material(Shader.Find("Sprites/Default")) { color = Color.white };
-                            field.transform.localScale = new Vector3(regionSize * 2f, regionSize, regionSize * 2f);
+                            if (Random.Range(0, 1f) < 0.25f)
+                            {
+                                field = new GameObject("GreatMine");
+                                field.tag = "GreatMine";
+                                MeshFilter mf = field.AddComponent<MeshFilter>();
+                                mf.mesh = boxMesh;
+                                MeshRenderer mr = field.AddComponent<MeshRenderer>();
+                                mr.material = new Material(Shader.Find("Sprites/Default")) { color = Color.magenta};
+                                field.transform.localScale = new Vector3(regionSize, regionSize*1.5f, regionSize);
+                            }
+                            else
+                            {
+                                field = new GameObject("ColdField");
+                                field.tag = "ColdField";
+                                MeshFilter mf = field.AddComponent<MeshFilter>();
+                                mf.mesh = circleMesh;
+                                MeshRenderer mr = field.AddComponent<MeshRenderer>();
+                                mr.material = new Material(Shader.Find("Sprites/Default")) { color = Color.white };
+                                field.transform.localScale = new Vector3(regionSize * 2f, regionSize, regionSize * 2f);
+                            }
                             field.transform.position = hit.point;
                         }
                         else
@@ -93,13 +107,26 @@ public class FlatResourceGenerator : LocatorFunctions
                             }
                             else
                             {
-                                field = new GameObject("EmptyField");
-                                field.tag = "EmptyField";
-                                MeshFilter mf = field.AddComponent<MeshFilter>();
-                                mf.mesh = circleMesh;
-                                MeshRenderer mr = field.AddComponent<MeshRenderer>();
-                                mr.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(0.3f, 0.8f, 0) };
-                                field.transform.localScale = new Vector3(regionSize * 2f, regionSize, regionSize * 2f);
+                                if (Random.Range(0, 1f) < 0.1f)
+                                {
+                                    field = new GameObject("SmallMine");
+                                    field.tag = "SmallMine";
+                                    MeshFilter mf = field.AddComponent<MeshFilter>();
+                                    mf.mesh = boxMesh;
+                                    MeshRenderer mr = field.AddComponent<MeshRenderer>();
+                                    mr.material = new Material(Shader.Find("Sprites/Default")) { color = Color.gray };
+                                    field.transform.localScale = new Vector3(regionSize*0.9f, regionSize * 1.5f, regionSize*0.9f);
+                                }
+                                else
+                                {
+                                    field = new GameObject("EmptyField");
+                                    field.tag = "EmptyField";
+                                    MeshFilter mf = field.AddComponent<MeshFilter>();
+                                    mf.mesh = circleMesh;
+                                    MeshRenderer mr = field.AddComponent<MeshRenderer>();
+                                    mr.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(0.3f, 0.8f, 0) };
+                                    field.transform.localScale = new Vector3(regionSize * 2f, regionSize, regionSize * 2f);
+                                }
                                 field.transform.position = hit.point;
                             }
                         }

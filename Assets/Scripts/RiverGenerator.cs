@@ -11,6 +11,7 @@ public class RiverGenerator : MonoBehaviour
     public float riverMaxHeight;
     private bool calculate;
     Terrain terrain;
+    TerrainGenerationPerlinNoise gen;
     private ElementManagement manager;
 
     // Start is called before the first frame update
@@ -18,6 +19,7 @@ public class RiverGenerator : MonoBehaviour
     {
         calculate=true;
         manager=GetComponent<ElementManagement>();
+        gen=GetComponent<TerrainGenerationPerlinNoise>();
     }
 
     private void LateUpdate()

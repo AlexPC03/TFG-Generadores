@@ -650,6 +650,7 @@ GameObject:
   - component: {fileID: 1244333467}
   - component: {fileID: 1244333469}
   - component: {fileID: 1244333470}
+  - component: {fileID: 1244333472}
   - component: {fileID: 1244333471}
   m_Layer: 0
   m_Name: Terrain
@@ -670,6 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc5d1f97e7c4b4849a0ae59387431940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seed: 0
   depth: 30
   width: 257
   height: 257
@@ -1059,13 +1061,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9071f83067e2a414997b7ace031f1175, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minHeight: 1
+  minHeight: 5
   coldHeight: 8.5
   forestMinHeight: 2
   maxSeaHeight: 1.5
   maxDistanceRiver: 15
   maxDistanceDelta: 20
+  forestDistanceMultiplicator: 1.5
   circleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &1244333471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1080,6 +1084,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   river: []
   resources: []
+  kingdoms: []
+--- !u!114 &1244333472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244333462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a35c710207d5e534b97a6408d2779eab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paso: 5
+  radio: 35
+  cantidadMejores: 7
+  decaimientoVecinos: 3
+  boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  circleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  mat: {fileID: 2100000, guid: 8329502c9747cf948b3af6cf0f92c138, type: 2}
 --- !u!114 &1288560780
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class TerrainGenerationPerlinNoise : MonoBehaviour
 {
+    public int seed;
     public int depth = 20;
     private ElementManagement manager;
     public int width = 256;
@@ -100,11 +101,16 @@ public class TerrainGenerationPerlinNoise : MonoBehaviour
     {
         if (newOffsets)
         {
+            if (seed != 0)
+            {
+                UnityEngine.Random.InitState(seed);
+            }
             newOffsets = false;
             ResetOffset();
             manager.RemoveElements();
             GetComponent<RiverGenerator>().Recalculate();
             GetComponent<FlatResourceGenerator>().Recalculate();
+            GetComponent<KingdomGenerator>().Recalculate();
             Terrain terrain = GetComponent<Terrain>();
             terrain.terrainData = GenerateTerrain(terrain.terrainData);
         }

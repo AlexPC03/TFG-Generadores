@@ -11,6 +11,9 @@ TagManager:
   - SeaField
   - ForestField
   - Delta
+  - GreatMine
+  - SmallMine
+  - Kingdom
   layers:
   - Default
   - TransparentFX
