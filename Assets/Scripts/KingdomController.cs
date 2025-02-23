@@ -136,8 +136,8 @@ public class KingdomController : LocatorFunctions
                     {
                         case "EmptyField":
                             if((Math.Abs(animals-k.animals)<3 && Math.Abs(agriculture - k.agriculture) < 3) || 
-                                (type==KingdomType.Ganadero && k.type==KingdomType.Ganadero) ||
-                                (type == KingdomType.Agricultor && k.type == KingdomType.Agricultor))
+                                (type==KingdomType.Ganadero && k.type==KingdomType.Ganadero) || (secondaryType == KingdomType.Ganadero && k.secondaryType == KingdomType.Ganadero) ||
+                                (type == KingdomType.Agricultor && k.type == KingdomType.Agricultor) || (secondaryType == KingdomType.Agricultor && k.secondaryType == KingdomType.Agricultor))
                             {
                                 allies.Add(k);
                             }
@@ -148,7 +148,7 @@ public class KingdomController : LocatorFunctions
                             break;
                         case "FertileField":
                             if (Math.Abs(agriculture - k.agriculture) < 3 ||
-                                (type == KingdomType.Agricultor && k.type == KingdomType.Agricultor))
+                                (type == KingdomType.Agricultor && k.type == KingdomType.Agricultor) || (secondaryType == KingdomType.Agricultor && k.secondaryType == KingdomType.Agricultor))
                             {
                                 allies.Add(k);
                             }
@@ -159,7 +159,7 @@ public class KingdomController : LocatorFunctions
                             break;
                         case "ForestField":
                             if (Math.Abs(animals - k.animals) < 3 ||
-                                (type == KingdomType.Cazador && k.type != KingdomType.Cazador && Math.Abs(foodSources - k.foodSources) < 5))
+                                (((type == KingdomType.Cazador && k.type != KingdomType.Cazador)|| (secondaryType == KingdomType.Cazador && k.secondaryType != KingdomType.Cazador)) && Math.Abs(foodSources - k.foodSources) < 5))
                             {
                                 allies.Add(k);
                             }
@@ -170,7 +170,7 @@ public class KingdomController : LocatorFunctions
                             break;
                         case "SeaField":
                             if (Math.Abs(foodSources - k.foodSources) < 5 ||
-                                (type == KingdomType.Pesquero && k.type == KingdomType.Pesquero))
+                                (type == KingdomType.Pesquero && k.type == KingdomType.Pesquero) || (secondaryType == KingdomType.Pesquero && k.secondaryType == KingdomType.Pesquero))
                             {
                                 allies.Add(k);
                             }
@@ -180,7 +180,7 @@ public class KingdomController : LocatorFunctions
                             }
                             break;
                         case "SmallMine":
-                            if (type != KingdomType.Minero && k.type != KingdomType.Minero)
+                            if ((type != KingdomType.Minero && k.type != KingdomType.Minero)|| (secondaryType != KingdomType.Minero && k.secondaryType != KingdomType.Minero))
                             {
                                 allies.Add(k);
                             }
@@ -194,6 +194,46 @@ public class KingdomController : LocatorFunctions
                             break;
                     }
                 }
+            }
+        }
+    }
+
+    public void SetRelationLines()
+    {
+        if (rivals.Count > 0)
+        {
+            foreach(KingdomController k in rivals)
+            {
+                GameObject a = new GameObject("RivalLine");
+                a.transform.position = transform.position;
+                a.transform.SetParent(transform);
+                LineRenderer rLine = a.AddComponent<LineRenderer>();
+                rLine.positionCount = 4;
+                rLine.SetPosition(0, transform.position);
+                rLine.SetPosition(1, new Vector3(transform.position.x, 45, transform.position.z));
+                rLine.SetPosition(2, new Vector3(k.transform.position.x, 45, k.transform.position.z));
+                rLine.SetPosition(3, k.transform.position);
+                rLine.startWidth=1.5f;
+                rLine.endWidth=1.5f;
+                rLine.material = new Material(Shader.Find("Sprites/Default")) { color = Color.red };
+            }
+        }
+        if (allies.Count > 0)
+        {
+            foreach (KingdomController k in allies)
+            {
+                GameObject a = new GameObject("AllyLine");
+                a.transform.position = transform.position;
+                a.transform.SetParent(transform);
+                LineRenderer rLine = a.AddComponent<LineRenderer>();
+                rLine.positionCount = 4;
+                rLine.SetPosition(0, transform.position);
+                rLine.SetPosition(1, new Vector3(transform.position.x, 45, transform.position.z));
+                rLine.SetPosition(2, new Vector3(k.transform.position.x, 45, k.transform.position.z));
+                rLine.SetPosition(3, k.transform.position);
+                rLine.startWidth = 1.5f;
+                rLine.endWidth = 1.5f;
+                rLine.material = new Material(Shader.Find("Sprites/Default")) { color = Color.blue };
             }
         }
     }

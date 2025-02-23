@@ -7,11 +7,13 @@ public class KingdomGenerator : MonoBehaviour
 {
     public float paso = 2f; // Espaciado entre puntos de muestreo
     public float radio = 5f; // Radio de análisis en cada punto
-    public int cantidadMejores = 5; // Número de mejores puntos a guardar
+    public int númeroDeReinos = 5; // Número de mejores puntos a guardar
+    public int cantidadAlimentoMinimo = 20; // Número de alimento mínimo para que no decrezca el reino
+    public int cantidadAlimentoParaCrecer=40; // Número de alimento mínimo para que crezca el reino
+    [Range(1,5)]
     public float decaimientoVecinos=1;
     public Mesh boxMesh;
     public Mesh circleMesh;
-    public Material mat;
 
     ElementManagement manager;
     Terrain terrain;
@@ -42,7 +44,7 @@ public class KingdomGenerator : MonoBehaviour
         if (calculate)
         {
             calculate = false;
-            for (int n=0;n< cantidadMejores;n++)
+            for (int n=0;n< númeroDeReinos;n++)
             {
                 Vector3 pos = GetTopValuePoint(manager.resources);
                 RaycastHit hit;
@@ -64,8 +66,8 @@ public class KingdomGenerator : MonoBehaviour
                         MeshFilter mf2 = a.AddComponent<MeshFilter>();
                         mf2.mesh = circleMesh;
                         MeshRenderer mr2 = a.AddComponent<MeshRenderer>();
-                        mr2.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(1,1,1,0.25f) };
-                        a.transform.localScale = new Vector3(radio * 2, radio*2, radio * 2);
+                        mr2.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(1,1,1,0.05f) };
+                        a.transform.localScale = new Vector3(radio * 2, 20, radio * 2);
                         a.transform.position = new Vector3(pos.x, hit.point.y, pos.z);
                         a.transform.parent=kingdom.transform;
 
@@ -76,6 +78,8 @@ public class KingdomGenerator : MonoBehaviour
                     }
                 }
             }
+            KingdomRecalculation();
+            manager.KingdomRelations();
         }
     }
 
@@ -143,6 +147,50 @@ public class KingdomGenerator : MonoBehaviour
         }
 
         return totalValue;
+    }
+
+    public void KingdomRecalculation()
+    {
+        foreach (KingdomController k in manager.kingdoms)
+        {
+            if (k.foodSources > cantidadAlimentoParaCrecer)
+            {
+                k.resources.Clear();
+                manager.resetResourceInterests(k);
+                k.transform.localScale += new Vector3(3, 2, 3);
+                Destroy(k.transform.GetChild(0).gameObject);
+
+                GameObject a = new GameObject("Radius");
+                MeshFilter mf2 = a.AddComponent<MeshFilter>();
+                mf2.mesh = circleMesh;
+                MeshRenderer mr2 = a.AddComponent<MeshRenderer>();
+                mr2.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(1, 1, 1, 0.05f) };
+                float r = Mathf.Clamp(manager.NearestKingdomDistance(k.transform.position)-1,radio,radio*1.5f);
+                a.transform.localScale = new Vector3(r*2, 15, r*2);
+                a.transform.position = k.transform.position;
+                a.transform.parent = k.transform;
+                GetValueInRadius(k.transform.position, r, manager.resources, k);
+                k.SetType();
+            }
+            else if(k.foodSources <= cantidadAlimentoMinimo)
+            {
+                k.resources.Clear();
+                manager.resetResourceInterests(k);
+                k.transform.localScale += new Vector3(-2, -3, -2);
+                Destroy(k.transform.GetChild(0).gameObject);
+
+                GameObject a = new GameObject("Radius");
+                MeshFilter mf2 = a.AddComponent<MeshFilter>();
+                mf2.mesh = circleMesh;
+                MeshRenderer mr2 = a.AddComponent<MeshRenderer>();
+                mr2.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(1, 1, 1, 0.05f) };
+                a.transform.localScale = new Vector3((radio * 2) * 0.75f, 15, (radio * 2) * 0.75f);
+                a.transform.position = k.transform.position;
+                a.transform.parent = k.transform;
+                GetValueInRadius(k.transform.position, radio * 0.75f, manager.resources, k);
+                k.SetType();
+            }
+        }
     }
 
     public void Recalculate()

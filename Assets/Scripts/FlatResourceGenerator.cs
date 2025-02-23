@@ -14,7 +14,7 @@ public class FlatResourceGenerator : LocatorFunctions
     private float regionSize = 2.5f; // Tamaño de la región a evaluar (en unidades del terreno)
     private int gridResolution = 5; // Número de puntos en la cuadrícula (más alto, más puntos)
     private float maxSlope = 0.25f; // Máxima inclinación permitida para que la región sea considerada plana
-    private float fieldDistance = 15f; 
+    public float fieldDistance = 15f; 
     List<Vector2> flatRegions;
     public Mesh circleMesh;
     public Mesh boxMesh;

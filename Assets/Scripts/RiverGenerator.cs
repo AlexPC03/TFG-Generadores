@@ -11,7 +11,6 @@ public class RiverGenerator : MonoBehaviour
     public float riverMaxHeight;
     private bool calculate;
     Terrain terrain;
-    TerrainGenerationPerlinNoise gen;
     private ElementManagement manager;
 
     // Start is called before the first frame update
@@ -19,7 +18,6 @@ public class RiverGenerator : MonoBehaviour
     {
         calculate=true;
         manager=GetComponent<ElementManagement>();
-        gen=GetComponent<TerrainGenerationPerlinNoise>();
     }
 
     private void LateUpdate()
@@ -134,7 +132,7 @@ public class RiverGenerator : MonoBehaviour
                 // Si la pendiente es demasiado baja, detén el flujo
                 if (flowDirection.magnitude < -0.1)
                 {
-                    Vector3 fallbackDirection = FindDirectionAround(hit.point,stepSize,20);
+                    Vector3 fallbackDirection = FindDirectionAround(hit.point,stepSize,50);
                     if (fallbackDirection == Vector3.zero)
                     {
                         Debug.Log("No se encontró una pendiente válida cerca del área plana.");

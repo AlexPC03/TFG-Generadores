@@ -1068,6 +1068,7 @@ MonoBehaviour:
   maxDistanceRiver: 15
   maxDistanceDelta: 20
   forestDistanceMultiplicator: 1.5
+  fieldDistance: 15
   circleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &1244333471
@@ -1098,12 +1099,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paso: 5
-  radio: 35
-  cantidadMejores: 7
-  decaimientoVecinos: 3
+  radio: 40
+  "n\xFAmeroDeReinos": 10
+  cantidadAlimentoMinimo: 20
+  cantidadAlimentoParaCrecer: 40
+  decaimientoVecinos: 5
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  circleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-  mat: {fileID: 2100000, guid: 8329502c9747cf948b3af6cf0f92c138, type: 2}
+  circleMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &1288560780
 MonoBehaviour:
   m_ObjectHideFlags: 0

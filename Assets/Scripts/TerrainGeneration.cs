@@ -96,7 +96,6 @@ public class TerrainGenerationPerlinNoise : MonoBehaviour
         manager=GetComponent<ElementManagement>();
     }
 
-
     private void Update()
     {
         if (newOffsets)
