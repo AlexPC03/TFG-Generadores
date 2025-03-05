@@ -170,6 +170,7 @@ public class KingdomGenerator : MonoBehaviour
                 a.transform.position = k.transform.position;
                 a.transform.parent = k.transform;
                 GetValueInRadius(k.transform.position, r, manager.resources, k);
+                k.size = KingdomController.Size.Grande;
                 k.SetType();
             }
             else if(k.foodSources <= cantidadAlimentoMinimo)
@@ -188,6 +189,7 @@ public class KingdomGenerator : MonoBehaviour
                 a.transform.position = k.transform.position;
                 a.transform.parent = k.transform;
                 GetValueInRadius(k.transform.position, radio * 0.75f, manager.resources, k);
+                k.size = KingdomController.Size.Pequeño;
                 k.SetType();
             }
         }
