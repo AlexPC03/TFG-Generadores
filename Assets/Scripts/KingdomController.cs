@@ -6,6 +6,7 @@ using UnityEngine;
 public class KingdomController : LocatorFunctions
 {
     public string kingdomName;
+    public int ownSeed;
     public List<GameObject> resources = new List<GameObject>();
     public List<KingdomController> rivals = new List<KingdomController>();
     public List<KingdomController> allies = new List<KingdomController>();
@@ -282,6 +283,7 @@ public class KingdomController : LocatorFunctions
         }
 
         kingdomName = p1 + p2 + p3;
+        ownSeed= UnityEngine.Random.Range(10000000, 99999999);
     }
 
     public void SetRelationLines()

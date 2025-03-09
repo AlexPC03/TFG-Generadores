@@ -16,8 +16,8 @@ public class KingdomGenerator : MonoBehaviour
     public Mesh circleMesh;
 
     ElementManagement manager;
-    Terrain terrain;
     FlatResourceGenerator resourceGenerator;
+    private TerrainGenerationPerlinNoise terrainGenerator;
     private bool calculate;
 
     Dictionary<string, float> valoresPorTag = new Dictionary<string, float>
@@ -34,9 +34,9 @@ public class KingdomGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        terrain = GetComponent<Terrain>();
         manager = GetComponent<ElementManagement>();
         resourceGenerator = GetComponent<FlatResourceGenerator>();
+        terrainGenerator = GetComponent<TerrainGenerationPerlinNoise>();
     }
 
     void LateUpdate()
@@ -86,27 +86,29 @@ public class KingdomGenerator : MonoBehaviour
     public Vector3 GetTopValuePoint(List<ResourceInfo> objectsToCheck)
     {
         List<(Vector3 position, float value)> allPoints = new List<(Vector3, float)>();
-
-        // Obtener los límites del terreno
-        Vector3 terrainPosition = terrain.transform.position;
-        float terrainWidth = terrain.terrainData.size.x;
-        float terrainLength = terrain.terrainData.size.z;
-
-        // Generar una cuadrícula sobre el terreno
-        for (float x = terrainPosition.x; x < terrainPosition.x + terrainWidth; x += paso)
+        foreach (Terrain terrain in terrainGenerator.terrains)
         {
-            for (float z = terrainPosition.z; z < terrainPosition.z + terrainLength; z += paso)
-            {
-                // Obtener la altura del terreno en este punto
-                float y = terrainPosition.y;
+            // Obtener los límites del terreno
+            Vector3 terrainPosition = terrain.transform.position;
+            float terrainWidth = terrain.terrainData.size.x;
+            float terrainLength = terrain.terrainData.size.z;
 
-                Vector3 point = new Vector3(x, y, z);
-                float value = GetValueInRadius(point, radio, objectsToCheck);
-                RaycastHit hit;
-                Physics.Raycast(new Vector3(point.x, 100, point.z), Vector3.down, out hit, Mathf.Infinity);
-                if (hit.point.y>= resourceGenerator.minHeight)
+            // Generar una cuadrícula sobre el terreno
+            for (float x = terrainPosition.x; x < terrainPosition.x + terrainWidth; x += paso)
+            {
+                for (float z = terrainPosition.z; z < terrainPosition.z + terrainLength; z += paso)
                 {
-                allPoints.Add((point, value));
+                    // Obtener la altura del terreno en este punto
+                    float y = terrainPosition.y;
+
+                    Vector3 point = new Vector3(x, y, z);
+                    float value = GetValueInRadius(point, radio, objectsToCheck);
+                    RaycastHit hit;
+                    Physics.Raycast(new Vector3(point.x, 100, point.z), Vector3.down, out hit, Mathf.Infinity);
+                    if (hit.point.y >= resourceGenerator.minHeight)
+                    {
+                        allPoints.Add((point, value));
+                    }
                 }
             }
         }

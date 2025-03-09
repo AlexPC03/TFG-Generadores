@@ -1,3 +1,4 @@
+using sc.terrain.proceduralpainter;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,9 @@ public class TerrainGenerationPerlinNoise : MonoBehaviour
     private ElementManagement manager;
     public int width = 256;
     public int height = 256;
+
+    public Terrain[] terrains;
+    public int tilesX, tilesY;
     [Range(-1, 1)]
     public float startHeight;
 
@@ -110,45 +114,68 @@ public class TerrainGenerationPerlinNoise : MonoBehaviour
             GetComponent<RiverGenerator>().Recalculate();
             GetComponent<FlatResourceGenerator>().Recalculate();
             GetComponent<KingdomGenerator>().Recalculate();
-            Terrain terrain = GetComponent<Terrain>();
-            terrain.terrainData = GenerateTerrain(terrain.terrainData);
+            ApplyProceduralHeightmaps();
+            GetComponent<TerrainPainter>().RepaintAll();
         }
     }
 
-    private TerrainData GenerateTerrain(TerrainData terrainData)
+    void ApplyProceduralHeightmaps()
     {
-        terrainData.heightmapResolution = width + 1;
-        terrainData.size=new Vector3(width,depth,height);
+        int tileWidth = width / tilesX;
+        int tileHeight = height / tilesY;
 
-        terrainData.SetHeights(0, 0, GenerateHeights());
+        for (int x = 0; x < tilesX; x++)
+        {
+            for (int y = 0; y < tilesY; y++)
+            {
+                int index = x * tilesY + y; // Para recorrer el array 1D
+                if (index < terrains.Length)
+                {
+                    terrains[index].terrainData.heightmapResolution = tileWidth + 1;
+                    terrains[index].terrainData.size = new Vector3(tileWidth, depth, tileHeight);
 
-        return terrainData;
+                    terrains[index].terrainData.SetHeights(0, 0, GenerateHeights(x,y, tileWidth, tileHeight));
+                }
+            }
+        }
     }
 
-    private float[,] GenerateHeights()
+    //private TerrainData GenerateTerrain(TerrainData terrainData)
+    //{
+    //    terrainData.heightmapResolution = width + 1;
+    //    terrainData.size=new Vector3(width,depth,height);
+
+    //    terrainData.SetHeights(0, 0, GenerateHeights());
+
+    //    return terrainData;
+    //}
+
+    private float[,] GenerateHeights(int tileX, int tileY, int tileWidth, int tileHeight)
     {
-        float[,] totalheights = new float[width, height];
+        float[,] totalheights = new float[tileWidth, tileHeight];
         for (int i = 0; i < capas.Length; i++)
         {
-            float[,] heights = new float[width, height];
-            float[,] maskHeights = new float[width, height];
-            for (int x=0; x < width; x++)
+            float[,] heights = new float[tileWidth, tileHeight];
+            float[,] maskHeights = new float[tileWidth, tileHeight];
+            for (int x=0; x < tileWidth; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < tileHeight; y++)
                 {
-                    heights[x, y] = CalculateHeight(x, y, capas[i].scale,i);
+                    int globalX = tileX * tileWidth + x;
+                    int globalY = tileY * tileHeight + y;
+                    heights[x, y] = CalculateHeight(globalX, globalY, capas[i].scale,i);
                     if (capas[i].noiseMask.enabled)
                     {
-                        maskHeights[x, y] = CalculateHeight(x, y, capas[i].noiseMask.scale, i);
+                        maskHeights[x, y] = CalculateHeight(globalX, globalY, capas[i].noiseMask.scale, i);
                     }
                     totalheights[x,y]= LayerOperation(totalheights[x, y], heights[x, y], capas[i], maskHeights[x,y]);
                 }
             }
         }
 
-        for (int x = 0; x < width; x++)
+        for (int x = 0; x < tileWidth; x++)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < tileHeight; y++)
             {
                 if (totalheights[x,y]>maxHeightAbs)
                 {
@@ -163,10 +190,28 @@ public class TerrainGenerationPerlinNoise : MonoBehaviour
         return totalheights;
     }
 
-    private float CalculateHeight(int x, int y,float scale,int index)
+    //private float[,] GenerateHeightsForTile(int tileX, int tileY, int tileWidth, int tileHeight)
+    //{
+    //    float[,] heights = new float[tileWidth, tileHeight];
+
+
+    //    for (int x = 0; x < tileWidth; x++)
+    //    {
+    //        for (int y = 0; y < tileHeight; y++)
+    //        {
+    //            int globalX = tileX * tileWidth + x;
+    //            int globalY = tileY * tileHeight + y;
+    //            heights[x, y] = CalculateHeight(globalX, globalY);
+    //        }
+    //    }
+
+    //    return heights;
+    //}
+
+    private float CalculateHeight(int x, int y, float scale,int index)
     {
-        float xCoord=(float)x/width * scale + offsets[index].x;
-        float yCoord=(float)y /height * scale+ offsets[index].y;
+        float xCoord= (float)x/width * scale + offsets[index].x;
+        float yCoord= (float)y/height * scale+ offsets[index].y;
         return Mathf.Clamp(Mathf.PerlinNoise(xCoord,yCoord),0,1);
     }
 
