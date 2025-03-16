@@ -24,7 +24,7 @@ public class KingdomGenerator : MonoBehaviour
     {
         { "ColdField", 0f },
         { "EmptyField", 2f },
-        { "ForestField", 1.5f },
+        { "ForestField", 2f },
         { "SeaField", 3f },
         { "FertileField", 5f },
         { "SmallMine", 5f },

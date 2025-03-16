@@ -73,7 +73,7 @@ public class FlatResourceGenerator : LocatorFunctions
                         {
                             if (hit.point.y > coldHeight)
                             {
-                                if (Random.Range(0, 1f) < 0.25f)
+                                if (Random.Range(0, 1f) < 0.33f)
                                 {
                                     field = new GameObject("GreatMine");
                                     field.tag = "GreatMine";
@@ -82,6 +82,16 @@ public class FlatResourceGenerator : LocatorFunctions
                                     MeshRenderer mr = field.AddComponent<MeshRenderer>();
                                     mr.material = new Material(Shader.Find("Sprites/Default")) { color = Color.magenta };
                                     field.transform.localScale = new Vector3(regionSize, regionSize * 1.5f, regionSize);
+                                }
+                                else if (Random.Range(0, 1f) < 0.33f)
+                                {
+                                    field = new GameObject("SmallMine");
+                                    field.tag = "SmallMine";
+                                    MeshFilter mf = field.AddComponent<MeshFilter>();
+                                    mf.mesh = boxMesh;
+                                    MeshRenderer mr = field.AddComponent<MeshRenderer>();
+                                    mr.material = new Material(Shader.Find("Sprites/Default")) { color = Color.gray };
+                                    field.transform.localScale = new Vector3(regionSize * 0.9f, regionSize * 1.5f, regionSize * 0.9f);
                                 }
                                 else
                                 {
@@ -97,7 +107,7 @@ public class FlatResourceGenerator : LocatorFunctions
                             }
                             else
                             {
-                                if (hit.point.y > forestMinHeight && (NearestRiver(hit.point, true) <= maxDistanceRiver * forestDistanceMultiplicator || NearestDelta(hit.point, true) <= maxDistanceDelta * forestDistanceMultiplicator))
+                                if ((hit.point.y > forestMinHeight && (NearestRiver(hit.point, true) <= maxDistanceRiver * forestDistanceMultiplicator || NearestDelta(hit.point, true) <= maxDistanceDelta * forestDistanceMultiplicator)))
                                 {
                                     field = new GameObject("ForestField");
                                     field.tag = "ForestField";

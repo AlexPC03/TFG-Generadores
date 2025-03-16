@@ -1150,7 +1150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   circleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   riverNumber: 16
-  riverMinHeight: 5
+  riverMinHeight: 8
   riverMaxHeight: 24
 --- !u!114 &1244333470
 MonoBehaviour:
@@ -1168,9 +1168,9 @@ MonoBehaviour:
   coldHeight: 8.5
   forestMinHeight: 2
   maxSeaHeight: 1.5
-  maxDistanceRiver: 15
-  maxDistanceDelta: 20
-  forestDistanceMultiplicator: 1.5
+  maxDistanceRiver: 17.5
+  maxDistanceDelta: 30
+  forestDistanceMultiplicator: 1.75
   fieldDistance: 25
   circleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
@@ -1203,10 +1203,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paso: 15
   radio: 60
-  "n\xFAmeroDeReinos": 16
+  "n\xFAmeroDeReinos": 24
   cantidadAlimentoMinimo: 20
-  cantidadAlimentoParaCrecer: 40
-  decaimientoVecinos: 4
+  cantidadAlimentoParaCrecer: 30
+  decaimientoVecinos: 5
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   circleMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &1288560780
@@ -1498,6 +1498,63 @@ MonoBehaviour:
   minFalloff: 5
   max: 50
   maxFalloff: 5
+--- !u!1 &1947213375
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1947213377}
+  - component: {fileID: 1947213376}
+  m_Layer: 0
+  m_Name: CityGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1947213376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947213375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1fdf24f3eaedb40ae626065712c69f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kingdomController: {fileID: 0}
+  width: 20
+  height: 20
+  poorRoadPrefab: {fileID: 2888472574293533724, guid: 5f46b2871c0975a4a8574e4cbc0d1227,
+    type: 3}
+  roadPrefab: {fileID: 5857949859046309434, guid: 8b4a94b2a60139a4a8acc21b397d303c,
+    type: 3}
+  plazaPrefab: {fileID: 8142292061554611420, guid: d13f25f2f7ef4c74988b1de361475e16,
+    type: 3}
+  emptyPrefab: {fileID: 8489710729838912465, guid: e3aeec633aa452d4085ab6219b9be15f,
+    type: 3}
+  tallEmptyPrefab: {fileID: 2103694807091414566, guid: e0f605f01de22b94ba60509730a9dcf8,
+    type: 3}
+--- !u!4 &1947213377
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1947213375}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -200, y: 0, z: -200}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1510,3 +1567,4 @@ SceneRoots:
   - {fileID: 1320003958}
   - {fileID: 1472072111}
   - {fileID: 604687932}
+  - {fileID: 1947213377}

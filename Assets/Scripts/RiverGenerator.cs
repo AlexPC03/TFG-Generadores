@@ -64,7 +64,7 @@ public class RiverGenerator : MonoBehaviour
                         river.GetComponent<LineRenderer>().startWidth = Random.Range(2f,4f);
                         river.GetComponent<LineRenderer>().endWidth = Random.Range(1f, 2f);
                         river.GetComponent<LineRenderer>().material = new Material(Shader.Find("Sprites/Default")) { color = Color.cyan };
-                        GenerateRiver(river.transform, 100, 0.5f);
+                        GenerateRiver(river.transform, 500, 0.5f);
                     }
                 }               
             }
@@ -88,9 +88,9 @@ public class RiverGenerator : MonoBehaviour
                 Vector3 flowDirection = Vector3.Cross(Vector3.Cross(normal, Vector3.down), normal).normalized;
 
                 // Si la pendiente es demasiado baja, detén el flujo
-                if (flowDirection.magnitude < -0.01)
+                if (flowDirection.magnitude < -0.001)
                 {
-                    Vector3 fallbackDirection = FindDirectionAround(hit.point,stepSize,100);
+                    Vector3 fallbackDirection = FindDirectionAround(hit.point,stepSize/2,300);
                     if (fallbackDirection == Vector3.zero)
                     {
                         Debug.Log("No se encontró una pendiente válida cerca del área plana.");
@@ -157,7 +157,7 @@ public class RiverGenerator : MonoBehaviour
         // Busca en un patrón en espiral dentro del radio definido
         for (float radius = stepSize; radius <= searchRadius; radius += stepSize)
         {
-            for (float angle = 0; angle < 360; angle += 15) // Incrementos de 15 grados
+            for (float angle = 0; angle < 360; angle += 7.5f) // Incrementos de 7.5 grados
             {
                 // Calcula la posición alrededor del centro
                 Vector3 offset = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0, Mathf.Sin(angle * Mathf.Deg2Rad)) * radius;

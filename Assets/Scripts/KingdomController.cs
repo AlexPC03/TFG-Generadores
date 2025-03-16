@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class KingdomController : LocatorFunctions
 {
+    private CityGenerator cityGenerator;
     public string kingdomName;
     public int ownSeed;
     public List<GameObject> resources = new List<GameObject>();
@@ -52,6 +53,26 @@ public class KingdomController : LocatorFunctions
     private string[] SufijosMedianos = { "ton", "burg", " Field", "stead", " Fort", "ward", "gate", "harbor", "moor", "watch", "glade", "fens", "brink", " Strand", "marsh", "heath", "crag", "cove", "rill", "spur", "vault", "grove", "march", "run", "reach", "strong", "vale", "bough" };
     private string[] SufijosGrandes = { "holm", "grad", "keep", "hagen", "wald", "hold", "shire", "tide", "deep", "haven", " Citadel", " Tower"," Dome", " Citadel", " Stronghold", " Metropolis", " Empire", " Sovereign", " Capitol", "sanctum", " Sanctuary", " Kingdom", "Realm", " Province", " Palace" };
 
+    public bool generate;
+
+    private void Start()
+    {
+        cityGenerator = GameObject.Find("CityGenerator").GetComponent<CityGenerator>();
+    }
+
+    void LateUpdate()
+    {
+        if (generate)
+        {
+            generate = false;
+            if (cityGenerator != null)
+            {
+                cityGenerator.kingdomController = this;
+                cityGenerator.CityStart();
+            }
+        }
+    }
+
     public void SetType()
     {
         foreach(GameObject res in resources)
@@ -70,9 +91,9 @@ public class KingdomController : LocatorFunctions
                     arr[0]+=5;
                     break;
                 case "ForestField":
-                    animals++;
+                    animals+=2;
                     foodSources++;
-                    arr[2]++;
+                    arr[2]+=2;
                     break;
                 case "SeaField":
                     foodSources += 3;
@@ -84,7 +105,7 @@ public class KingdomController : LocatorFunctions
                     arr[4]+=5;
                     break;
                 case "GreatMine":
-                    mineralForce+=3;
+                    mineralForce+=4;
                     arr[4] += 10;
                     break;
             }
