@@ -416,6 +416,7 @@ public class CityGenerator : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
+                int connectValue=0;
                 GameObject obj=null;
                 if (grid[x, y].IsRoad)
                 {
@@ -429,7 +430,7 @@ public class CityGenerator : MonoBehaviour
                     }
                     else if(grid[x, y].zone == ZoneType.Middle )
                     {
-                        if(UnityEngine.Random.Range(0, 1f) < 0.66)
+                        if(UnityEngine.Random.Range(0, 1f) < 0.85)
                         {
                             obj = roadPrefab;
                         }
@@ -441,6 +442,23 @@ public class CityGenerator : MonoBehaviour
                     else
                     {
                         obj = roadPrefab;
+                    }
+
+                    if (y < height - 1 && grid[x, y + 1].IsRoad)
+                    {
+                        connectValue += 1;
+                    }
+                    if (x < width - 1 && grid[x+1,y].IsRoad)
+                    {
+                        connectValue += 2;
+                    }
+                    if (y > 0 && grid[x, y - 1].IsRoad)
+                    {
+                        connectValue += 4;
+                    }
+                    if (x > 0 && grid[x - 1, y].IsRoad)
+                    {
+                        connectValue += 8;
                     }
                 }
                 else
@@ -456,6 +474,11 @@ public class CityGenerator : MonoBehaviour
                 }
                 float tileHeight = 0;
                 GameObject aux =Instantiate(obj,transform.position + new Vector3(x, tileHeight, y),Quaternion.identity);
+                if (aux.GetComponent<SpriteBitmaskConexion>() != null)
+                {
+                    aux.GetComponent<SpriteBitmaskConexion>().Set(connectValue);
+                    aux.GetComponent<SpriteBitmaskConexion>().tile = new Vector2(x, y);
+                }
                 objects.Add(aux);
                 aux.transform.SetParent(transform);
             }
