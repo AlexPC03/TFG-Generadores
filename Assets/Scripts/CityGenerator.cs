@@ -466,10 +466,44 @@ public class CityGenerator : MonoBehaviour
                     if(grid[x, y].tall)
                     {
                         obj = tallEmptyPrefab;
+
+                        if (y < height - 1 && grid[x, y + 1].tall)
+                        {
+                            connectValue += 1;
+                        }
+                        if (x < width - 1 && grid[x + 1, y].tall)
+                        {
+                            connectValue += 2;
+                        }
+                        if (y > 0 && grid[x, y - 1].tall)
+                        {
+                            connectValue += 4;
+                        }
+                        if (x > 0 && grid[x - 1, y].tall)
+                        {
+                            connectValue += 8;
+                        }
                     }
                     else
                     {
                         obj = emptyPrefab;
+
+                        if (y < height - 1 && !grid[x, y + 1].IsRoad)
+                        {
+                            connectValue += 1;
+                        }
+                        if (x < width - 1 && !grid[x + 1, y].IsRoad)
+                        {
+                            connectValue += 2;
+                        }
+                        if (y > 0 && !grid[x, y - 1].IsRoad)
+                        {
+                            connectValue += 4;
+                        }
+                        if (x > 0 && !grid[x - 1, y].IsRoad)
+                        {
+                            connectValue += 8;
+                        }
                     }
                 }
                 float tileHeight = 0;
@@ -478,6 +512,11 @@ public class CityGenerator : MonoBehaviour
                 {
                     aux.GetComponent<SpriteBitmaskConexion>().Set(connectValue);
                     aux.GetComponent<SpriteBitmaskConexion>().tile = new Vector2(x, y);
+                }
+                if (aux.GetComponent<ModelBitmaskConexion>() != null)
+                {
+                    aux.GetComponent<ModelBitmaskConexion>().Set(connectValue);
+                    aux.GetComponent<ModelBitmaskConexion>().tile = new Vector2(x, y);
                 }
                 objects.Add(aux);
                 aux.transform.SetParent(transform);

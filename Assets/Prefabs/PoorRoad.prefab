@@ -64,6 +64,7 @@ MonoBehaviour:
   - {fileID: -1475746703, guid: 6c1c9e1eab3167d4db4118d846fea9ab, type: 3}
   - {fileID: 580881157, guid: 6c1c9e1eab3167d4db4118d846fea9ab, type: 3}
   spriteRenderer: {fileID: 1524283060720195075}
+  tile: {x: 0, y: 0}
 --- !u!1 &5267402241567294882
 GameObject:
   m_ObjectHideFlags: 0
