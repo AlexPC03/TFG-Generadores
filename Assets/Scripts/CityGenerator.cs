@@ -417,6 +417,7 @@ public class CityGenerator : MonoBehaviour
             for (int y = 0; y < height; y++)
             {
                 int connectValue=0;
+                bool U = false, UR = false, R = false, DR = false, D = false, DL = false, L = false, UL = false;
                 GameObject obj=null;
                 if (grid[x, y].IsRoad)
                 {
@@ -447,18 +448,38 @@ public class CityGenerator : MonoBehaviour
                     if (y < height - 1 && grid[x, y + 1].IsRoad)
                     {
                         connectValue += 1;
+                        U = true;
+                        if (x < width - 1 && grid[x + 1, y + 1].IsRoad)
+                        {
+                            UR = true;
+                        }
+                        if (x > 0 && grid[x - 1, y + 1].IsRoad)
+                        {
+                            UL = true;
+                        }
                     }
                     if (x < width - 1 && grid[x+1,y].IsRoad)
                     {
                         connectValue += 2;
+                        R = true;
                     }
                     if (y > 0 && grid[x, y - 1].IsRoad)
                     {
                         connectValue += 4;
+                        D = true;
+                        if (x < width - 1 && grid[x + 1, y - 1].IsRoad)
+                        {
+                            DR = true;
+                        }
+                        if (x > 0 && grid[x - 1, y - 1].IsRoad)
+                        {
+                            DL = true;
+                        }
                     }
                     if (x > 0 && grid[x - 1, y].IsRoad)
                     {
                         connectValue += 8;
+                        L = true;
                     }
                 }
                 else
@@ -470,18 +491,38 @@ public class CityGenerator : MonoBehaviour
                         if (y < height - 1 && grid[x, y + 1].tall)
                         {
                             connectValue += 1;
+                            U = true;
+                            if (x < width - 1 && grid[x + 1, y + 1].tall)
+                            {
+                                UR = true;
+                            }
+                            if (x > 0 && grid[x - 1, y + 1].tall)
+                            {
+                                UL = true;
+                            }
                         }
                         if (x < width - 1 && grid[x + 1, y].tall)
                         {
                             connectValue += 2;
+                            R = true;
                         }
                         if (y > 0 && grid[x, y - 1].tall)
                         {
                             connectValue += 4;
+                            D = true;
+                            if (x < width - 1 && grid[x + 1, y - 1].tall)
+                            {
+                                DR = true;
+                            }
+                            if (x > 0 && grid[x - 1, y - 1].tall)
+                            {
+                                DL = true;
+                            }
                         }
                         if (x > 0 && grid[x - 1, y].tall)
                         {
                             connectValue += 8;
+                            L = true;
                         }
                     }
                     else
@@ -491,18 +532,38 @@ public class CityGenerator : MonoBehaviour
                         if (y < height - 1 && !grid[x, y + 1].IsRoad)
                         {
                             connectValue += 1;
+                            U = true;
+                            if (x < width - 1 && !grid[x + 1, y + 1].IsRoad)
+                            {
+                                UR = true;
+                            }
+                            if (x > 0 && !grid[x - 1, y + 1].IsRoad)
+                            {
+                                UL = true;
+                            }
                         }
                         if (x < width - 1 && !grid[x + 1, y].IsRoad)
                         {
                             connectValue += 2;
+                            R = true;
                         }
                         if (y > 0 && !grid[x, y - 1].IsRoad)
                         {
                             connectValue += 4;
+                            D = true;
+                            if (x < width - 1 && !grid[x + 1, y - 1].IsRoad)
+                            {
+                                DR = true;
+                            }
+                            if (x > 0 && !grid[x - 1, y - 1].IsRoad)
+                            {
+                                DL = true;
+                            }
                         }
                         if (x > 0 && !grid[x - 1, y].IsRoad)
                         {
                             connectValue += 8;
+                            L = true;
                         }
                     }
                 }
@@ -517,6 +578,11 @@ public class CityGenerator : MonoBehaviour
                 {
                     aux.GetComponent<ModelBitmaskConexion>().Set(connectValue);
                     aux.GetComponent<ModelBitmaskConexion>().tile = new Vector2(x, y);
+                }
+                if (aux.GetComponent<SegmentedModelBitmaskConexion>() != null)
+                {
+                    aux.GetComponent<SegmentedModelBitmaskConexion>().Set(U,UR,R,DR,D,DL,L,UL);
+                    aux.GetComponent<SegmentedModelBitmaskConexion>().tile = new Vector2(x, y);
                 }
                 objects.Add(aux);
                 aux.transform.SetParent(transform);
