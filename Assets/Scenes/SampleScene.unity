@@ -1536,8 +1536,20 @@ MonoBehaviour:
     type: 3}
   plazaPrefab: {fileID: 8142292061554611420, guid: d13f25f2f7ef4c74988b1de361475e16,
     type: 3}
-  emptyPrefab: {fileID: 8489710729838912465, guid: e3aeec633aa452d4085ab6219b9be15f,
-    type: 3}
+  buildingPrefabs:
+  - {fileID: 8489710729838912465, guid: e3aeec633aa452d4085ab6219b9be15f, type: 3}
+  - {fileID: 8489710729838912465, guid: 942bb63b53e705b4d913ce1eec77c3ba, type: 3}
+  - {fileID: 6617553624900911435, guid: 45ff00a0aa0abec4780ff369c687fd72, type: 3}
+  - {fileID: 789466807651847742, guid: 66fab4996bedfe9488cee05f46926651, type: 3}
+  - {fileID: 1514744931871786338, guid: b10e38253f725614f9afb5778cc60e77, type: 3}
+  - {fileID: 616148036565981169, guid: a140c9d12d5dbb44fb17a487759a9690, type: 3}
+  buildingPrefabsVariants:
+  - {fileID: 8489710729838912465, guid: cbf5a2a59d6e11145ab1ae65a6aa08ea, type: 3}
+  - {fileID: 8489710729838912465, guid: dc4e0c1c8f873234f9b51a6d4d5d93f7, type: 3}
+  - {fileID: 6617553624900911435, guid: ed800df9757d3814f895f018dce8f633, type: 3}
+  - {fileID: 789466807651847742, guid: 2d799a65ca7c8944f892caa4871e199f, type: 3}
+  - {fileID: 1514744931871786338, guid: 96d9a2a85440a544fa6a2ed7431ee422, type: 3}
+  - {fileID: 616148036565981169, guid: d070969822c6d2445a2d54549bf44ee6, type: 3}
   tallEmptyPrefab: {fileID: 2103694807091414566, guid: e0f605f01de22b94ba60509730a9dcf8,
     type: 3}
 --- !u!4 &1947213377

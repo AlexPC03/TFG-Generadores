@@ -10,7 +10,8 @@ public class CityGenerator : MonoBehaviour
     public GameObject poorRoadPrefab;  // Prefab para los caminos pobres
     public GameObject roadPrefab;  // Prefab para los caminos
     public GameObject plazaPrefab;  // Prefab para los caminos
-    public GameObject emptyPrefab; // Prefab para las zonas sin caminos
+    public GameObject[] buildingPrefabs; // Prefab para las zonas sin caminos
+    public GameObject[] buildingPrefabsVariants; 
     public GameObject tallEmptyPrefab; // Prefab para las zonas Altas
     private Tile[,] grid;
     private List<GameObject> objects = new List<GameObject>();
@@ -77,6 +78,8 @@ public class CityGenerator : MonoBehaviour
         TallBuildings();
         FindPlazas(3);
 
+        // Septima pasada: Detectar grupos y asignar tipos
+        ClusterDetection(5);
 
         // Instanciar los caminos en la escena
         InstantiateGrid();
@@ -390,6 +393,132 @@ public class CityGenerator : MonoBehaviour
         }
     }
 
+    private void ClusterDetection(int maxClusterSize)
+    {
+        int rows = grid.GetLength(0);
+        int cols = grid.GetLength(1);
+        List<List<(int, int)>> clusters = new List<List<(int, int)>>();
+        int initMaxClusterSize = maxClusterSize;
+        for (int r = 0; r < rows; r++)
+        {
+            for (int c = 0; c < cols; c++)
+            {
+                if (!grid[r, c].clusterChecked && !grid[r,c].IsRoad)
+                {
+                    List<(int, int)> cluster = new List<(int, int)>();
+                    DFS(grid, r, c, cluster, maxClusterSize);
+
+                    // Si se excede el tamaño, recortar y liberar celdas sobrantes
+                    if (cluster.Count > maxClusterSize)
+                    {
+                        for (int i = maxClusterSize; i < cluster.Count; i++)
+                            grid[cluster[i].Item1, cluster[i].Item2].clusterChecked = false;
+
+                        cluster.RemoveRange(maxClusterSize, cluster.Count - maxClusterSize);
+                        maxClusterSize = initMaxClusterSize + UnityEngine.Random.Range(-2, 2);
+                    }
+
+                    clusters.Add(cluster);
+                }
+            }
+        }
+
+        foreach (var cluster in clusters)
+        {
+            if (cluster.Count >= 2 || (cluster.Count >= 1 && UnityEngine.Random.Range(0, 3) <= 1)) // solo clusters grandes
+            {
+                KingdomController.KingdomType chosenType = KingdomController.KingdomType.None;
+                bool chooseVariant=false;
+                if(grid[cluster[0].Item1, cluster[0].Item2].zone==ZoneType.Poor)
+                {
+                    switch (UnityEngine.Random.Range(0,10))
+                    {
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            chosenType = kingdomController.type;
+                            break;
+                        case 8:
+                        case 9:
+                            chosenType = kingdomController.secondaryType;
+                            break;
+                    }
+                }
+                else if (grid[cluster[0].Item1, cluster[0].Item2].zone == ZoneType.Middle)
+                {
+                    switch (UnityEngine.Random.Range(0, 10))
+                    {
+                        case 3:
+                        case 4:
+                        case 5:
+                            chosenType = kingdomController.type;
+                            break;
+                        case 8:
+                        case 9:
+                            chosenType = kingdomController.secondaryType;
+                            break;
+                    }
+                }
+                else if(grid[cluster[0].Item1, cluster[0].Item2].zone == ZoneType.Rich && cluster.Count <= maxClusterSize * 0.75f)
+                {
+                    switch (UnityEngine.Random.Range(0, 10))
+                    {
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            chosenType = kingdomController.type;
+                            break;
+                        case 6:
+                        case 7:
+                        case 8:
+                        case 9:
+                            chosenType = kingdomController.secondaryType;
+                            break;
+                    }
+                    chooseVariant = true;
+                }
+                if(UnityEngine.Random.Range(0, 4) == 0)
+                {
+                    chooseVariant = true;
+                }
+                foreach (var (r, c) in cluster)
+                {
+                    grid[r, c].type = chosenType;
+                    grid[r, c].typeVariant = chooseVariant;
+                }
+            }
+        }
+    }
+
+    static void DFS(
+        Tile[,] grid,
+        int r,
+        int c,
+        List<(int, int)> cluster,
+        int maxSize)
+    {
+        int rows = grid.GetLength(0);
+        int cols = grid.GetLength(1);
+
+        if (r < 0 || c < 0 || r >= rows || c >= cols)
+            return;
+        if (grid[r, c].clusterChecked || grid[r, c].IsRoad)
+            return;
+        if (cluster.Count >= maxSize)
+            return;
+
+        grid[r, c].clusterChecked = true;
+        cluster.Add((r, c));
+
+        DFS(grid, r - 1, c, cluster, maxSize);
+        DFS(grid, r + 1, c, cluster, maxSize);
+        DFS(grid, r, c - 1, cluster, maxSize);
+        DFS(grid, r, c + 1, cluster, maxSize);
+    }
+
     private List<Tile> GetRoadBlock(int startX, int startY, int size)
     {
         List<Tile> block = new List<Tile>();
@@ -527,8 +656,14 @@ public class CityGenerator : MonoBehaviour
                     }
                     else
                     {
-                        obj = emptyPrefab;
-
+                        if(grid[x, y].typeVariant)
+                        {
+                            obj = buildingPrefabsVariants[(int)grid[x, y].type];
+                        }
+                        else
+                        {
+                            obj = buildingPrefabs[(int)grid[x, y].type];
+                        }
                         if (y < height - 1 && !grid[x, y + 1].IsRoad)
                         {
                             connectValue += 1;
@@ -675,6 +810,9 @@ public class Tile
     public CityGenerator.ZoneType zone;
     public bool tall;
     public bool plaza;
+    public bool clusterChecked;
+    public KingdomController.KingdomType type=KingdomController.KingdomType.None;
+    public bool typeVariant;
 
     public Tile(int x, int y, CityGenerator.ZoneType zone)
     {
