@@ -8,12 +8,14 @@ public class ElementManagement : MonoBehaviour
     public List<GameObject> river;
     public List<ResourceInfo> resources;
     public List<KingdomController> kingdoms;
+    public List<GameObject> kingdomsFrontiers;
 
     private void Awake()
     {
         river = new List<GameObject>();
         resources = new List<ResourceInfo>();
         kingdoms = new List<KingdomController>();
+        kingdomsFrontiers = new List<GameObject>();
     }
 
     public void RemoveElements()
@@ -33,6 +35,11 @@ public class ElementManagement : MonoBehaviour
             Destroy(g.gameObject);
         }
         kingdoms.Clear();
+        foreach (GameObject g in kingdomsFrontiers)
+        {
+            Destroy(g);
+        }
+        kingdomsFrontiers.Clear();
     }
 
     public void KingdomRelations()
@@ -49,13 +56,13 @@ public class ElementManagement : MonoBehaviour
         {
             k.rivals= k.rivals.Distinct().ToList();
             k.allies= k.allies.Distinct().ToList();
-            k.allies.RemoveAll(x => k.rivals.Contains(x));
+            k.rivals.RemoveAll(x => k.allies.Contains(x));
         }
         foreach(KingdomController k in kingdoms)
         {
 
             // Obtener todos los aliados en cualquier nivel de profundidad
-            HashSet<KingdomController> allAllies = GetAllAllies(new HashSet<KingdomController>(),k,3);
+            PropagarAlianzas(kingdoms);
 
             List<KingdomController> rivalsToRemove = new List<KingdomController>();
 
@@ -64,7 +71,7 @@ public class ElementManagement : MonoBehaviour
                 // Verificar si el rival es aliado de algún aliado
                 foreach (KingdomController ally in k.allies)
                 {
-                    if (allAllies.Contains(rival))
+                    if (k.allies.Contains(rival))
                     {
                         rivalsToRemove.Add(rival);
                     }
@@ -82,24 +89,54 @@ public class ElementManagement : MonoBehaviour
         }
         foreach (KingdomController k in kingdoms)
         {
+            k.rivals = k.rivals.Distinct().ToList();
+            k.allies = k.allies.Distinct().ToList();
+            k.rivals.RemoveAll(x => k.allies.Contains(x));
+        }
+        foreach (KingdomController k in kingdoms)
+        {
+            k.rivals = k.rivals.Distinct().ToList();
+            k.allies = k.allies.Distinct().ToList();
+            k.allies.RemoveAll(x => k.rivals.Contains(x));
+        }
+        foreach (KingdomController k in kingdoms)
+        {
             k.SetRelationLines();
         }
     }
 
-    private HashSet<KingdomController> GetAllAllies(HashSet<KingdomController> checkedAllies,KingdomController k, int depth)
+    public static void PropagarAlianzas(List<KingdomController> ciudades)
     {
-        foreach (KingdomController ally in k.allies)
+        HashSet<KingdomController> visitados = new();
+
+        foreach (var ciudad in ciudades)
         {
-            if (!checkedAllies.Contains(ally))
+            if (!visitados.Contains(ciudad))
             {
-                checkedAllies.Add(ally);
-                if (depth >0)
+                HashSet<KingdomController> grupo = new();
+                ConstruirGrupo(ciudad, grupo);
+
+                // Añadir todos los miembros del grupo como aliados entre sí
+                foreach (var miembro in grupo)
                 {
-                    GetAllAllies(checkedAllies,ally,depth-1); // Llamada recursiva
+                    miembro.allies = grupo.Where(c => c != miembro).ToList();
+                    visitados.Add(miembro);
                 }
             }
         }
-        return checkedAllies;
+    }
+
+    private static void ConstruirGrupo(KingdomController ciudad, HashSet<KingdomController> grupo)
+    {
+        if (grupo.Contains(ciudad)) return;
+
+        grupo.Add(ciudad);
+
+        foreach (var aliado in ciudad.allies)
+        {
+            if (aliado != null)
+                ConstruirGrupo(aliado, grupo);
+        }
     }
 
     public void resetResourceInterests(KingdomController kingdom)

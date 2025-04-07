@@ -12,6 +12,7 @@ public class CityGenerator : MonoBehaviour
     public GameObject plazaPrefab;  // Prefab para los caminos
     public GameObject[] buildingPrefabs; // Prefab para las zonas sin caminos
     public GameObject[] buildingPrefabsVariants; 
+    public GameObject[] buildingPrefabsVariants2;
     public GameObject tallEmptyPrefab; // Prefab para las zonas Altas
     private Tile[,] grid;
     private List<GameObject> objects = new List<GameObject>();
@@ -428,7 +429,7 @@ public class CityGenerator : MonoBehaviour
             if (cluster.Count >= 2 || (cluster.Count >= 1 && UnityEngine.Random.Range(0, 3) <= 1)) // solo clusters grandes
             {
                 KingdomController.KingdomType chosenType = KingdomController.KingdomType.None;
-                bool chooseVariant=false;
+                int chooseVariant=0;
                 if(grid[cluster[0].Item1, cluster[0].Item2].zone==ZoneType.Poor)
                 {
                     switch (UnityEngine.Random.Range(0,10))
@@ -444,6 +445,19 @@ public class CityGenerator : MonoBehaviour
                             chosenType = kingdomController.secondaryType;
                             break;
                     }
+                    int r = UnityEngine.Random.Range(0, 10);
+                    if (r <= 6)
+                    {
+                        chooseVariant = 0;
+                    }
+                    else if(r <= 7)
+                    {
+                        chooseVariant = 1;
+                    }
+                    else
+                    {
+                        chooseVariant = 2;
+                    }
                 }
                 else if (grid[cluster[0].Item1, cluster[0].Item2].zone == ZoneType.Middle)
                 {
@@ -458,6 +472,19 @@ public class CityGenerator : MonoBehaviour
                         case 9:
                             chosenType = kingdomController.secondaryType;
                             break;
+                    }
+                    int r = UnityEngine.Random.Range(0, 10);
+                    if (r <= 1)
+                    {
+                        chooseVariant = 0;
+                    }
+                    else if (r <= 6)
+                    {
+                        chooseVariant = 1;
+                    }
+                    else
+                    {
+                        chooseVariant = 2;
                     }
                 }
                 else if(grid[cluster[0].Item1, cluster[0].Item2].zone == ZoneType.Rich && cluster.Count <= maxClusterSize * 0.75f)
@@ -478,11 +505,15 @@ public class CityGenerator : MonoBehaviour
                             chosenType = kingdomController.secondaryType;
                             break;
                     }
-                    chooseVariant = true;
-                }
-                if(UnityEngine.Random.Range(0, 4) == 0)
-                {
-                    chooseVariant = true;
+                    int r = UnityEngine.Random.Range(0, 10);
+                    if (r <= 1)
+                    {
+                        chooseVariant = 1;
+                    }
+                    else
+                    {
+                        chooseVariant = 2;
+                    }
                 }
                 foreach (var (r, c) in cluster)
                 {
@@ -656,46 +687,51 @@ public class CityGenerator : MonoBehaviour
                     }
                     else
                     {
-                        if(grid[x, y].typeVariant)
-                        {
-                            obj = buildingPrefabsVariants[(int)grid[x, y].type];
-                        }
-                        else
+                        if (grid[x, y].typeVariant == 0)
                         {
                             obj = buildingPrefabs[(int)grid[x, y].type];
                         }
-                        if (y < height - 1 && !grid[x, y + 1].IsRoad)
+                        else if(grid[x, y].typeVariant==1)
+                        {
+                            obj = buildingPrefabsVariants[(int)grid[x, y].type];
+                        }
+                        else if (grid[x, y].typeVariant == 2)
+                        {
+                            obj = buildingPrefabsVariants2[(int)grid[x, y].type];
+                        }
+
+                        if (y < height - 1 && !grid[x, y + 1].IsRoad && grid[x, y].typeVariant == grid[x, y + 1].typeVariant && grid[x, y].type == grid[x, y + 1].type)
                         {
                             connectValue += 1;
                             U = true;
-                            if (x < width - 1 && !grid[x + 1, y + 1].IsRoad)
+                            if (x < width - 1 && !grid[x + 1, y + 1].IsRoad && grid[x, y].typeVariant== grid[x + 1, y + 1].typeVariant && grid[x, y].type == grid[x + 1, y + 1].type)
                             {
                                 UR = true;
                             }
-                            if (x > 0 && !grid[x - 1, y + 1].IsRoad)
+                            if (x > 0 && !grid[x - 1, y + 1].IsRoad && grid[x, y].typeVariant == grid[x - 1, y + 1].typeVariant && grid[x, y].type == grid[x - 1, y + 1].type)
                             {
                                 UL = true;
                             }
                         }
-                        if (x < width - 1 && !grid[x + 1, y].IsRoad)
+                        if (x < width - 1 && !grid[x + 1, y].IsRoad && grid[x, y].typeVariant == grid[x + 1, y].typeVariant && grid[x, y].type == grid[x + 1, y].type)
                         {
                             connectValue += 2;
                             R = true;
                         }
-                        if (y > 0 && !grid[x, y - 1].IsRoad)
+                        if (y > 0 && !grid[x, y - 1].IsRoad && grid[x, y].typeVariant == grid[x, y - 1].typeVariant && grid[x, y].type == grid[x, y - 1].type)
                         {
                             connectValue += 4;
                             D = true;
-                            if (x < width - 1 && !grid[x + 1, y - 1].IsRoad)
+                            if (x < width - 1 && !grid[x + 1, y - 1].IsRoad && grid[x, y].typeVariant == grid[x + 1, y - 1].typeVariant && grid[x, y].type == grid[x + 1, y - 1].type)
                             {
                                 DR = true;
                             }
-                            if (x > 0 && !grid[x - 1, y - 1].IsRoad)
+                            if (x > 0 && !grid[x - 1, y - 1].IsRoad && grid[x, y].typeVariant == grid[x - 1, y - 1].typeVariant && grid[x, y].type == grid[x - 1, y - 1].type)
                             {
                                 DL = true;
                             }
                         }
-                        if (x > 0 && !grid[x - 1, y].IsRoad)
+                        if (x > 0 && !grid[x - 1, y].IsRoad && grid[x, y].typeVariant == grid[x - 1, y].typeVariant && grid[x, y].type == grid[x - 1, y].type)
                         {
                             connectValue += 8;
                             L = true;
@@ -812,7 +848,7 @@ public class Tile
     public bool plaza;
     public bool clusterChecked;
     public KingdomController.KingdomType type=KingdomController.KingdomType.None;
-    public bool typeVariant;
+    public int typeVariant;
 
     public Tile(int x, int y, CityGenerator.ZoneType zone)
     {

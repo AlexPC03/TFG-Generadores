@@ -142,6 +142,37 @@ MonoBehaviour:
   minMax: {x: 0, y: 90}
   minFalloff: 90
   maxFalloff: 90
+--- !u!1 &298876679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 298876680}
+  m_Layer: 0
+  m_Name: Fronteras
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &298876680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298876679}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1244333466}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +210,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -203,8 +234,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 276.08
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -228,13 +259,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 256, y: 300, z: 256}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,6 +574,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &734183148
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 734183149}
+  m_Layer: 0
+  m_Name: Territorios
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &734183149
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734183148}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1244333466}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,6 +807,7 @@ GameObject:
   - component: {fileID: 1244333470}
   - component: {fileID: 1244333472}
   - component: {fileID: 1244333471}
+  - component: {fileID: 1244333473}
   m_Layer: 0
   m_Name: Terrain_(0,0)
   m_TagString: Untagged
@@ -1061,7 +1124,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 734183149}
+  - {fileID: 298876680}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1244333467
@@ -1189,6 +1254,7 @@ MonoBehaviour:
   river: []
   resources: []
   kingdoms: []
+  kingdomsFrontiers: []
 --- !u!114 &1244333472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1209,6 +1275,21 @@ MonoBehaviour:
   decaimientoVecinos: 5
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   circleMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  showRadius: 0
+--- !u!114 &1244333473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1244333462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d5f0797eae8b494aac2b791ba5670c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialPais: {fileID: 2100000, guid: 56c8fb3ba4b7e764f83e35231762666e, type: 2}
+  coloresGenerados: 0
 --- !u!114 &1288560780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1550,6 +1631,13 @@ MonoBehaviour:
   - {fileID: 789466807651847742, guid: 2d799a65ca7c8944f892caa4871e199f, type: 3}
   - {fileID: 1514744931871786338, guid: 96d9a2a85440a544fa6a2ed7431ee422, type: 3}
   - {fileID: 616148036565981169, guid: d070969822c6d2445a2d54549bf44ee6, type: 3}
+  buildingPrefabsVariants2:
+  - {fileID: 8489710729838912465, guid: 6f61c7fba85639e42a3e3611dac7783f, type: 3}
+  - {fileID: 8489710729838912465, guid: 4cf21dac802f2c444b8c772bf5f8e295, type: 3}
+  - {fileID: 6617553624900911435, guid: 036bdf5413faf364e83ba778bd898001, type: 3}
+  - {fileID: 789466807651847742, guid: 98c290def157c0545af45b07f0512118, type: 3}
+  - {fileID: 1514744931871786338, guid: 19714547467171b42ba36479a26bc51a, type: 3}
+  - {fileID: 616148036565981169, guid: 7f9f5a8754620064d9da0db69a705447, type: 3}
   tallEmptyPrefab: {fileID: 2103694807091414566, guid: e0f605f01de22b94ba60509730a9dcf8,
     type: 3}
 --- !u!4 &1947213377
