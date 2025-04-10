@@ -26,16 +26,16 @@ public class CityGenerator : MonoBehaviour
         switch (kingdomController.size)
         {
             case KingdomController.Size.Pequeño:
-                width = 40;
-                height = 40;
+                width = 50;
+                height = 50;
                 break;
             case KingdomController.Size.Mediano:
-                width = 55;
-                height = 55;
+                width = 66;
+                height = 66;
                 break;
             case KingdomController.Size.Grande:
-                width = 70;
-                height = 70;
+                width = 80;
+                height = 80;
                 break;
         }
         foreach(GameObject obj in objects)
@@ -81,6 +81,9 @@ public class CityGenerator : MonoBehaviour
 
         // Septima pasada: Detectar grupos y asignar tipos
         ClusterDetection(5);
+
+        // Octava pasada: Aplicar máscara para que no sea un cuadrado
+        ApplyMask(5);
 
         // Instanciar los caminos en la escena
         InstantiateGrid();
@@ -550,6 +553,159 @@ public class CityGenerator : MonoBehaviour
         DFS(grid, r, c + 1, cluster, maxSize);
     }
 
+    private void ApplyMask(int maxDepth)
+    {
+        int aux = 0;
+        //Arriba (Derecha a izquierda)
+        aux = UnityEngine.Random.Range((int)(maxDepth * 0.33f), (int)(maxDepth * 0.66f));
+        for (int x = 0; x < width; x++)
+        {
+            for(int i=0; i<= aux;i++)
+            {
+                grid[x, height - 1 - i].empty = true;
+            }
+            if (x % 2 == 0 || UnityEngine.Random.Range(0, 2)==1)
+            {
+                switch (UnityEngine.Random.Range(0, 5))
+                {
+                    case 0:
+                    case 1:
+                        if (aux!=0)
+                        {
+                            aux--;
+                        }
+                        else
+                        {
+                            aux++;
+                        }
+                        break;
+                    case 3:
+                    case 4:
+                        if (aux != maxDepth)
+                        {
+                            aux++;
+                        }
+                        else
+                        {
+                            aux--;
+                        }
+                        break;
+                }
+            }
+        }
+        //Abajo (Derecha a izquierda)
+        aux = UnityEngine.Random.Range((int)(maxDepth * 0.33f), (int)(maxDepth * 0.66f));
+        for (int x = 0; x < width; x++)
+        {
+            for (int i = 0; i <= aux; i++)
+            {
+                grid[x, i].empty = true;
+            }
+            if (x % 2 == 0 || UnityEngine.Random.Range(0, 2) == 1)
+            {
+                switch (UnityEngine.Random.Range(0, 5))
+                {
+                    case 0:
+                    case 1:
+                        if (aux != 0)
+                        {
+                            aux--;
+                        }
+                        else
+                        {
+                            aux++;
+                        }
+                        break;
+                    case 3:
+                    case 4:
+                        if (aux != maxDepth)
+                        {
+                            aux++;
+                        }
+                        else
+                        {
+                            aux--;
+                        }
+                        break;
+                }
+            }
+        }
+        //Izquierda (Abajo a arriba)
+        aux = UnityEngine.Random.Range((int)(maxDepth * 0.33f), (int)(maxDepth * 0.66f));
+        for (int y = 0; y < width; y++)
+        {
+            for (int i = 0; i <= aux; i++)
+            {
+                grid[i, y].empty = true;
+            }
+            if (y % 2 == 0 || UnityEngine.Random.Range(0, 2) == 1)
+            {
+                switch (UnityEngine.Random.Range(0, 5))
+                {
+                    case 0:
+                    case 1:
+                        if (aux != 0)
+                        {
+                            aux--;
+                        }
+                        else
+                        {
+                            aux++;
+                        }
+                        break;
+                    case 3:
+                    case 4:
+                        if (aux != maxDepth)
+                        {
+                            aux++;
+                        }
+                        else
+                        {
+                            aux--;
+                        }
+                        break;
+                }
+            }
+        }
+        //Derecha (Abajo a arriba)
+        aux = UnityEngine.Random.Range((int)(maxDepth * 0.33f), (int)(maxDepth * 0.66f));
+        for (int y = 0; y < width; y++)
+        {
+            for (int i = 0; i <= aux; i++)
+            {
+                grid[width - 1 - i, y].empty = true;
+            }
+            if (y % 2 == 0 || UnityEngine.Random.Range(0, 2) == 1)
+            {
+                switch (UnityEngine.Random.Range(0, 5))
+                {
+                    case 0:
+                    case 1:
+                        if (aux != 0)
+                        {
+                            aux--;
+                        }
+                        else
+                        {
+                            aux++;
+                        }
+                        break;
+                    case 3:
+                    case 4:
+                        if (aux != maxDepth)
+                        {
+                            aux++;
+                        }
+                        else
+                        {
+                            aux--;
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
     private List<Tile> GetRoadBlock(int startX, int startY, int size)
     {
         List<Tile> block = new List<Tile>();
@@ -576,6 +732,7 @@ public class CityGenerator : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
+                if (grid[x, y].empty) continue;
                 int connectValue=0;
                 bool U = false, UR = false, R = false, DR = false, D = false, DL = false, L = false, UL = false;
                 GameObject obj=null;
@@ -700,38 +857,38 @@ public class CityGenerator : MonoBehaviour
                             obj = buildingPrefabsVariants2[(int)grid[x, y].type];
                         }
 
-                        if (y < height - 1 && !grid[x, y + 1].IsRoad && grid[x, y].typeVariant == grid[x, y + 1].typeVariant && grid[x, y].type == grid[x, y + 1].type)
+                        if (y < height - 1 && !grid[x, y + 1].IsRoad && grid[x, y].typeVariant == grid[x, y + 1].typeVariant && grid[x, y].type == grid[x, y + 1].type && !grid[x, y+1].empty)
                         {
                             connectValue += 1;
                             U = true;
-                            if (x < width - 1 && !grid[x + 1, y + 1].IsRoad && grid[x, y].typeVariant== grid[x + 1, y + 1].typeVariant && grid[x, y].type == grid[x + 1, y + 1].type)
+                            if (x < width - 1 && !grid[x + 1, y + 1].IsRoad && grid[x, y].typeVariant== grid[x + 1, y + 1].typeVariant && grid[x, y].type == grid[x + 1, y + 1].type && !grid[x+1, y+1].empty)
                             {
                                 UR = true;
                             }
-                            if (x > 0 && !grid[x - 1, y + 1].IsRoad && grid[x, y].typeVariant == grid[x - 1, y + 1].typeVariant && grid[x, y].type == grid[x - 1, y + 1].type)
+                            if (x > 0 && !grid[x - 1, y + 1].IsRoad && grid[x, y].typeVariant == grid[x - 1, y + 1].typeVariant && grid[x, y].type == grid[x - 1, y + 1].type && !grid[x-1, y+1].empty)
                             {
                                 UL = true;
                             }
                         }
-                        if (x < width - 1 && !grid[x + 1, y].IsRoad && grid[x, y].typeVariant == grid[x + 1, y].typeVariant && grid[x, y].type == grid[x + 1, y].type)
+                        if (x < width - 1 && !grid[x + 1, y].IsRoad && grid[x, y].typeVariant == grid[x + 1, y].typeVariant && grid[x, y].type == grid[x + 1, y].type && !grid[x+1, y].empty)
                         {
                             connectValue += 2;
                             R = true;
                         }
-                        if (y > 0 && !grid[x, y - 1].IsRoad && grid[x, y].typeVariant == grid[x, y - 1].typeVariant && grid[x, y].type == grid[x, y - 1].type)
+                        if (y > 0 && !grid[x, y - 1].IsRoad && grid[x, y].typeVariant == grid[x, y - 1].typeVariant && grid[x, y].type == grid[x, y - 1].type && !grid[x, y-1].empty)
                         {
                             connectValue += 4;
                             D = true;
-                            if (x < width - 1 && !grid[x + 1, y - 1].IsRoad && grid[x, y].typeVariant == grid[x + 1, y - 1].typeVariant && grid[x, y].type == grid[x + 1, y - 1].type)
+                            if (x < width - 1 && !grid[x + 1, y - 1].IsRoad && grid[x, y].typeVariant == grid[x + 1, y - 1].typeVariant && grid[x, y].type == grid[x + 1, y - 1].type && !grid[x+1, y-1].empty)
                             {
                                 DR = true;
                             }
-                            if (x > 0 && !grid[x - 1, y - 1].IsRoad && grid[x, y].typeVariant == grid[x - 1, y - 1].typeVariant && grid[x, y].type == grid[x - 1, y - 1].type)
+                            if (x > 0 && !grid[x - 1, y - 1].IsRoad && grid[x, y].typeVariant == grid[x - 1, y - 1].typeVariant && grid[x, y].type == grid[x - 1, y - 1].type && !grid[x-1, y-1].empty)
                             {
                                 DL = true;
                             }
                         }
-                        if (x > 0 && !grid[x - 1, y].IsRoad && grid[x, y].typeVariant == grid[x - 1, y].typeVariant && grid[x, y].type == grid[x - 1, y].type)
+                        if (x > 0 && !grid[x - 1, y].IsRoad && grid[x, y].typeVariant == grid[x - 1, y].typeVariant && grid[x, y].type == grid[x - 1, y].type && !grid[x-1, y].empty)
                         {
                             connectValue += 8;
                             L = true;
@@ -739,7 +896,7 @@ public class CityGenerator : MonoBehaviour
                     }
                 }
                 float tileHeight = 0;
-                GameObject aux =Instantiate(obj,transform.position + new Vector3(x, tileHeight, y),Quaternion.identity);
+                GameObject aux =Instantiate(obj,transform.position + new Vector3(x - width / 2, tileHeight, y - height / 2),Quaternion.identity);
                 if (aux.GetComponent<SpriteBitmaskConexion>() != null)
                 {
                     aux.GetComponent<SpriteBitmaskConexion>().Set(connectValue);
@@ -759,6 +916,37 @@ public class CityGenerator : MonoBehaviour
                 aux.transform.SetParent(transform);
             }
         }
+    }
+
+    public void AddaptHeights()
+    {
+        foreach (GameObject tile in objects)
+        {
+            Vector3 origenRaycast = new Vector3(
+             tile.transform.position.x,
+             tile.transform.position.y + 50,
+             tile.transform.position.z
+            );
+
+            RaycastHit hit;
+
+            if (Physics.Raycast(origenRaycast, Vector3.down, out hit, Mathf.Infinity))
+            {
+                Vector3 nuevaPos = tile.transform.position;
+                if (hit.point.y <= 0.6f)
+                {
+                    Destroy(tile.gameObject);
+                    continue;
+                }
+                nuevaPos.y = hit.point.y-0.05f;
+                tile.transform.position = nuevaPos;
+            }
+            else
+            {
+                Destroy(tile.gameObject);
+            }
+        }
+        objects.RemoveAll(tile => tile == null);
     }
 
     List<Tile> GetNeighbors(Tile tile, bool includeDiagonals=false)
@@ -844,6 +1032,7 @@ public class Tile
     public bool IsRoad;
     public List<bool> PossibleStates; // true = camino, false = vacío
     public CityGenerator.ZoneType zone;
+    public bool empty;
     public bool tall;
     public bool plaza;
     public bool clusterChecked;

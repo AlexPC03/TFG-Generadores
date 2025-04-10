@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &38406964209319559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3212292642578135455}
+  - component: {fileID: 5810899284618237513}
+  m_Layer: 0
+  m_Name: CityGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3212292642578135455
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38406964209319559}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -200, y: 0, z: -200}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5810899284618237513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38406964209319559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1fdf24f3eaedb40ae626065712c69f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kingdomController: {fileID: 0}
+  width: 20
+  height: 20
+  poorRoadPrefab: {fileID: 2888472574293533724, guid: 5f46b2871c0975a4a8574e4cbc0d1227,
+    type: 3}
+  roadPrefab: {fileID: 5857949859046309434, guid: 8b4a94b2a60139a4a8acc21b397d303c,
+    type: 3}
+  plazaPrefab: {fileID: 8142292061554611420, guid: d13f25f2f7ef4c74988b1de361475e16,
+    type: 3}
+  buildingPrefabs:
+  - {fileID: 8489710729838912465, guid: e3aeec633aa452d4085ab6219b9be15f, type: 3}
+  - {fileID: 8489710729838912465, guid: 942bb63b53e705b4d913ce1eec77c3ba, type: 3}
+  - {fileID: 6617553624900911435, guid: 45ff00a0aa0abec4780ff369c687fd72, type: 3}
+  - {fileID: 789466807651847742, guid: 66fab4996bedfe9488cee05f46926651, type: 3}
+  - {fileID: 1514744931871786338, guid: b10e38253f725614f9afb5778cc60e77, type: 3}
+  - {fileID: 616148036565981169, guid: a140c9d12d5dbb44fb17a487759a9690, type: 3}
+  buildingPrefabsVariants:
+  - {fileID: 8489710729838912465, guid: cbf5a2a59d6e11145ab1ae65a6aa08ea, type: 3}
+  - {fileID: 8489710729838912465, guid: dc4e0c1c8f873234f9b51a6d4d5d93f7, type: 3}
+  - {fileID: 6617553624900911435, guid: ed800df9757d3814f895f018dce8f633, type: 3}
+  - {fileID: 789466807651847742, guid: 2d799a65ca7c8944f892caa4871e199f, type: 3}
+  - {fileID: 1514744931871786338, guid: 96d9a2a85440a544fa6a2ed7431ee422, type: 3}
+  - {fileID: 616148036565981169, guid: d070969822c6d2445a2d54549bf44ee6, type: 3}
+  buildingPrefabsVariants2:
+  - {fileID: 8489710729838912465, guid: 6f61c7fba85639e42a3e3611dac7783f, type: 3}
+  - {fileID: 8489710729838912465, guid: 4cf21dac802f2c444b8c772bf5f8e295, type: 3}
+  - {fileID: 6617553624900911435, guid: 036bdf5413faf364e83ba778bd898001, type: 3}
+  - {fileID: 789466807651847742, guid: 98c290def157c0545af45b07f0512118, type: 3}
+  - {fileID: 1514744931871786338, guid: 19714547467171b42ba36479a26bc51a, type: 3}
+  - {fileID: 616148036565981169, guid: 7f9f5a8754620064d9da0db69a705447, type: 3}
+  tallEmptyPrefab: {fileID: 2103694807091414566, guid: e0f605f01de22b94ba60509730a9dcf8,
+    type: 3}

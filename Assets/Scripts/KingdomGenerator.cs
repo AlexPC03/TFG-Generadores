@@ -79,6 +79,7 @@ public class KingdomGenerator : MonoBehaviour
 
 
                         KingdomController controller= kingdom.AddComponent<KingdomController>();
+                        controller.SetManager(manager);
                         GetValueInRadius(hit.point, radio, manager.resources, controller);
                         controller.SetType();
                         manager.kingdoms.Add(controller);

@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class ElementManagement : MonoBehaviour
 {
+    public GameObject city;
     public List<GameObject> river;
     public List<ResourceInfo> resources;
     public List<KingdomController> kingdoms;
     public List<GameObject> kingdomsFrontiers;
+    public List<GameObject> cities;
 
     private void Awake()
     {
@@ -16,6 +18,7 @@ public class ElementManagement : MonoBehaviour
         resources = new List<ResourceInfo>();
         kingdoms = new List<KingdomController>();
         kingdomsFrontiers = new List<GameObject>();
+        cities = new List<GameObject>();
     }
 
     public void RemoveElements()
@@ -40,6 +43,11 @@ public class ElementManagement : MonoBehaviour
             Destroy(g);
         }
         kingdomsFrontiers.Clear();
+        foreach (GameObject g in cities)
+        {
+            Destroy(g);
+        }
+        cities.Clear();
     }
 
     public void KingdomRelations()
@@ -165,5 +173,27 @@ public class ElementManagement : MonoBehaviour
             }
         }
         return minDistance;
+    }
+
+    public Transform NearestResource(Vector3 pos)
+    {
+        var arr = resources.ToArray();
+        if (arr.Length <= 0)
+        {
+            return null;
+        }
+        float minDistance = float.PositiveInfinity;
+        Transform nearest=null;
+        foreach (ResourceInfo obj in arr)
+        {
+            float dist = 0;
+            dist = (obj.transform.position - pos).magnitude;
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                nearest = obj.transform;
+            }
+        }
+        return nearest;
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class KingdomController : LocatorFunctions
 {
-    private CityGenerator cityGenerator;
+    private ElementManagement manager;
     public string kingdomName;
     public int ownSeed;
     public List<GameObject> resources = new List<GameObject>();
@@ -55,22 +55,36 @@ public class KingdomController : LocatorFunctions
 
     public bool generate;
 
-    private void Start()
-    {
-        cityGenerator = GameObject.Find("CityGenerator").GetComponent<CityGenerator>();
-    }
-
     void LateUpdate()
     {
-        if (generate)
+        if (generate && manager != null)
         {
-            generate = false;
-            if (cityGenerator != null)
+            if ((manager.NearestResource(transform.position).position - transform.position).magnitude <= 30)
             {
-                cityGenerator.kingdomController = this;
-                cityGenerator.CityStart();
+                Transform n = manager.NearestResource(transform.position);
+                if (n.GetComponent<MeshFilter>() != null)
+                {
+                    Destroy(n.GetComponent<MeshFilter>());
+                }
+            }
+            generate = false;
+            GameObject kCity = Instantiate(manager.city, transform.position, Quaternion.identity);
+            kCity.GetComponent<CityGenerator>().kingdomController = this;
+            kCity.GetComponent<CityGenerator>().CityStart();
+            kCity.transform.parent = transform;
+            kCity.transform.localScale = Vector3.one * 0.025f;
+            manager.cities.Add(kCity);
+            kCity.GetComponent<CityGenerator>().AddaptHeights();
+            if (GetComponent<MeshFilter>() != null)
+            {
+                Destroy(GetComponent<MeshFilter>());
             }
         }
+    }
+
+    public void SetManager(ElementManagement e)
+    {
+        manager = e;
     }
 
     public void SetType()

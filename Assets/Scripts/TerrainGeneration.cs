@@ -90,6 +90,8 @@ public class TerrainGenerationPerlinNoise : MonoBehaviour
 
     private List<Vector2> offsets;
     private Vector2[] maskOffsets;
+    [Header("Generate cities")]
+    public bool cities;
     [Header("Recalculate")]
     public bool newOffsets;
 
@@ -116,6 +118,14 @@ public class TerrainGenerationPerlinNoise : MonoBehaviour
             GetComponent<KingdomGenerator>().Recalculate();
             ApplyProceduralHeightmaps();
             GetComponent<TerrainPainter>().RepaintAll();
+        }
+        if (cities)
+        {
+            cities = false;
+            foreach(KingdomController k in manager.kingdoms)
+            {
+                k.generate = true;
+            }
         }
     }
 
