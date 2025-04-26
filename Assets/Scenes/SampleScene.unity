@@ -1232,13 +1232,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minHeight: 5
-  coldHeight: 8.5
+  coldHeight: 7
   forestMinHeight: 2
   maxSeaHeight: 1.5
   maxDistanceRiver: 17.5
   maxDistanceDelta: 30
   forestDistanceMultiplicator: 1.75
-  fieldDistance: 25
+  fieldDistance: 15
   circleMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &1244333471
@@ -1272,14 +1272,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paso: 15
-  radio: 60
+  radio: 40
   "n\xFAmeroDeReinos": 24
-  cantidadAlimentoMinimo: 20
-  cantidadAlimentoParaCrecer: 30
+  cantidadAlimentoMinimo: 25
+  cantidadAlimentoParaCrecer: 45
   decaimientoVecinos: 5
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   circleMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
-  showRadius: 0
+  showRadius: 1
 --- !u!114 &1244333473
 MonoBehaviour:
   m_ObjectHideFlags: 0

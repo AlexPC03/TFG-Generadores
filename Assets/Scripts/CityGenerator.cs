@@ -122,38 +122,32 @@ public class CityGenerator : MonoBehaviour
 
     void RemoveIsolatedRoads()
     {
-        bool changesMade;
-        do
+        List<Tile> tilesToCheck = new List<Tile>();
+
+        foreach (var tile in grid)
         {
-            changesMade = false;
-            List<Tile> tilesToCheck = new List<Tile>();
-
-            foreach (var tile in grid)
+            if (tile.IsRoad)
             {
-                if (tile.IsRoad)
-                {
-                    tilesToCheck.Add(tile);
-                }
+                tilesToCheck.Add(tile);
             }
+        }
 
-            foreach (Tile tile in tilesToCheck)
+        foreach (Tile tile in tilesToCheck)
+        {
+            int roadNeighbors = 0;
+            foreach (Tile neighbor in GetNeighbors(tile))
             {
-                int roadNeighbors = 0;
-                foreach (Tile neighbor in GetNeighbors(tile))
-                {
-                    if (neighbor.IsRoad) roadNeighbors++;
-                }
-                int aux = 2;
-                if (tile.zone == ZoneType.Middle) aux = 1;
-                // Si el camino tiene menos de aux conexiones, lo eliminamos
-                if (roadNeighbors < aux)
-                {
-                    tile.IsRoad = false;
-                    tile.IsCollapsed = true;
-                    changesMade = true;
-                }
+                if (neighbor.IsRoad) roadNeighbors++;
             }
-        } while (changesMade); // Seguimos limpiando hasta que no haya más cambios
+            int aux = 2;
+            if (tile.zone == ZoneType.Middle) aux = 1;
+            // Si el camino tiene menos de aux conexiones, se eliminama
+            if (roadNeighbors < aux)
+            {
+                tile.IsRoad = false;
+                tile.IsCollapsed = true;
+            }
+        }
     }
 
     void ConnectDiagonalRoads()
@@ -187,7 +181,7 @@ public class CityGenerator : MonoBehaviour
         }
     }
 
-    void ConnectAllPaths()
+    void ConnectAllPaths() //Kruskal modificado
     {
         HashSet<Tile> visited = new HashSet<Tile>();
         List<HashSet<Tile>> roadClusters = new List<HashSet<Tile>>();
@@ -269,11 +263,21 @@ public class CityGenerator : MonoBehaviour
             {
                 if (x < end.x) x++;
                 else if (x > end.x) x--;
+                else
+                {
+                    if (y < end.y) y++;
+                    else if (y > end.y) y--;
+                }
             }
             else
             {
                 if (y < end.y) y++;
                 else if (y > end.y) y--;
+                else
+                {
+                    if (x < end.x) x++;
+                    else if (x > end.x) x--;
+                }
             }
             if (!grid[x, y].IsRoad)
             {
@@ -285,8 +289,9 @@ public class CityGenerator : MonoBehaviour
 
     public void RandomRichPaths()
     {
-        List<Tile> richTiles = new List<Tile>();
-        List<Tile> richPaths = new List<Tile>();
+        List<Tile> richTiles = new List<Tile>(); // Lista para almacenar todos los tiles que pertenecen a la zona rica
+        List<Tile> richPaths = new List<Tile>(); // Lista para almacenar los tiles de zona rica que ya son caminos
+        // Recorrer toda la rejilla y añadir a richTiles aquellos que están en zona rica
         foreach (Tile tile in grid)
         {
             if (tile.zone == ZoneType.Rich)
@@ -294,6 +299,7 @@ public class CityGenerator : MonoBehaviour
                 richTiles.Add(tile);
             }
         }
+        // De los tiles ricos, seleccionar aquellos que son caminos y añadirlos a richPaths
         foreach (Tile tile in richTiles)
         {
             if (tile.IsRoad)
@@ -301,7 +307,8 @@ public class CityGenerator : MonoBehaviour
                 richPaths.Add(tile);
             }
         }
-        if(richPaths.Count<=1)
+        // Si hay pocos caminos en la zona rica, no se puede crear una conexión útil
+        if (richPaths.Count<=1)
         {
             print("No rich path found");
             return;
@@ -309,8 +316,11 @@ public class CityGenerator : MonoBehaviour
         int aux = richTiles.Count / 100;
         for (int i=0; i< aux; i++)
         {
+            // Selecciona aleatoriamente dos caminos distintos de la zona rica
             Tile r1 = richPaths[UnityEngine.Random.Range(0, richPaths.Count)];
             Tile r2 = richPaths[UnityEngine.Random.Range(0, richPaths.Count)];
+
+            // Crea un camino entre ambos
             CreatePathBetween(r1, r2);
         }
     }
@@ -325,7 +335,7 @@ public class CityGenerator : MonoBehaviour
             {
                 Tile tile = grid[x, y];
 
-                // Solo buscamos en la zona media y rica
+                // Solo busca en la zona media y rica
                 if (!tile.IsRoad && (tile.zone != ZoneType.Poor))
                 {
                     int aux = 2;

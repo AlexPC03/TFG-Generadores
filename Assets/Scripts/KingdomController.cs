@@ -338,27 +338,27 @@ public class KingdomController : LocatorFunctions
                 rLine.SetPosition(3, k.transform.position);
                 rLine.startWidth=2.5f;
                 rLine.endWidth=2.5f;
-                rLine.material = new Material(Shader.Find("Sprites/Default")) { color = Color.red };
+                rLine.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(1, 0, 0, 1f) };
                 rLine.sortingOrder = 11;
             }
         }
-        //if (allies.Count > 0)
-        //{
-        //    foreach (KingdomController k in allies)
-        //    {
-        //        GameObject a = new GameObject("AllyLine");
-        //        a.transform.position = transform.position;
-        //        a.transform.SetParent(transform);
-        //        LineRenderer rLine = a.AddComponent<LineRenderer>();
-        //        rLine.positionCount = 4;
-        //        rLine.SetPosition(0, transform.position);
-        //        rLine.SetPosition(1, new Vector3(transform.position.x, 15, transform.position.z));
-        //        rLine.SetPosition(2, new Vector3(k.transform.position.x, 15, k.transform.position.z));
-        //        rLine.SetPosition(3, k.transform.position);
-        //        rLine.startWidth = 1.5f;
-        //        rLine.endWidth = 1.5f;
-        //        rLine.material = new Material(Shader.Find("Sprites/Default")) { color = Color.blue };
-        //    }
-        //}
+        if (allies.Count > 0)
+        {
+            foreach (KingdomController k in allies)
+            {
+                GameObject a = new GameObject("AllyLine");
+                a.transform.position = transform.position;
+                a.transform.SetParent(transform);
+                LineRenderer rLine = a.AddComponent<LineRenderer>();
+                rLine.positionCount = 4;
+                rLine.SetPosition(0, transform.position);
+                rLine.SetPosition(1, new Vector3(transform.position.x, 15, transform.position.z));
+                rLine.SetPosition(2, new Vector3(k.transform.position.x, 15, k.transform.position.z));
+                rLine.SetPosition(3, k.transform.position);
+                rLine.startWidth = 1.5f;
+                rLine.endWidth = 1.5f;
+                rLine.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(0,0,1,1f) };
+            }
+        }
     }
 }

@@ -64,7 +64,7 @@ public class RiverGenerator : MonoBehaviour
                         river.GetComponent<LineRenderer>().startWidth = Random.Range(2f,4f);
                         river.GetComponent<LineRenderer>().endWidth = Random.Range(1f, 2f);
                         river.GetComponent<LineRenderer>().material = new Material(Shader.Find("Sprites/Default")) { color = Color.cyan };
-                        GenerateRiver(river.transform, 500, 0.5f);
+                        GenerateRiver(river.transform, 5000, 0.5f);
                     }
                 }               
             }
@@ -80,17 +80,18 @@ public class RiverGenerator : MonoBehaviour
             riverPath.Add(currentPosition+Vector3.up*0.1f);
 
             // Realiza un raycast hacia abajo para obtener la normal del terreno
-            if (Physics.Raycast(currentPosition + Vector3.up * 0.1f, Vector3.down, out RaycastHit hit, Mathf.Infinity))
+            if (Physics.Raycast(currentPosition + Vector3.up * 10f, Vector3.down, out RaycastHit hit, Mathf.Infinity))
             {
                 Vector3 normal = hit.normal;
 
                 // Calcula la dirección hacia abajo a lo largo de la pendiente
-                Vector3 flowDirection = Vector3.Cross(Vector3.Cross(normal, Vector3.down), normal).normalized;
+                Vector3 rawflowDirection = Vector3.Cross(Vector3.Cross(normal, Vector3.down), normal);
+                Vector3 flowDirection = rawflowDirection.normalized;
 
                 // Si la pendiente es demasiado baja, detén el flujo
-                if (flowDirection.magnitude < -0.001)
+                if (rawflowDirection.magnitude <= 0)
                 {
-                    Vector3 fallbackDirection = FindDirectionAround(hit.point,stepSize/2,300);
+                    Vector3 fallbackDirection = FindDirectionAround(hit.point,stepSize/2,5000);
                     if (fallbackDirection == Vector3.zero)
                     {
                         Debug.Log("No se encontró una pendiente válida cerca del área plana.");
@@ -104,13 +105,26 @@ public class RiverGenerator : MonoBehaviour
                 Vector3 nextPosition = currentPosition + flowDirection * stepSize;
 
                 // Comprueba si el siguiente punto está más bajo que el actual (para evitar bucles)
-                if (nextPosition.y >= currentPosition.y || currentPosition.y<=0.6)
+                if (nextPosition.y >= currentPosition.y)
                 {
                     Debug.Log("El flujo del río ha alcanzado un punto plano o ascendente.");
                     break;
                 }
+                else if(currentPosition.y <= 0.6)
+                {
+                    Debug.Log("El flujo del río ha alcanzado el mar.");
+                    break;
+                }
 
-                currentPosition = nextPosition;
+                if(Physics.Raycast(nextPosition + Vector3.up, Vector3.down, Mathf.Infinity))
+                {
+                    currentPosition = nextPosition;
+                }
+                else
+                {
+                    Debug.Log("No se detectó terreno debajo del punto actual.");
+                    break;
+                }
             }
             else
             {
@@ -130,6 +144,7 @@ public class RiverGenerator : MonoBehaviour
         }
         if (riverPath[riverPath.Count - 1].y < 1)
         {
+            Debug.Log("Delta generado");
             GameObject auxriv = new GameObject("Delta");
             auxriv.transform.position = riverPath[riverPath.Count - 1];
             auxriv.tag = "Delta";
@@ -179,32 +194,6 @@ public class RiverGenerator : MonoBehaviour
 
         return bestDirection;
     }
-
-    //private float GetHighestPoint(Terrain terrain)
-    //{
-    //    TerrainData terrainData = terrain.terrainData;
-
-    //    // Obtén las alturas del terreno
-    //    float[,] heights = terrainData.GetHeights(0, 0, terrainData.heightmapResolution, terrainData.heightmapResolution);
-
-    //    float maxHeight = float.MinValue;
-    //    Vector3 highestPoint = Vector3.zero;
-
-    //    // Iterar por todas las alturas
-    //    for (int x = 0; x < heights.GetLength(0); x++)
-    //    {
-    //        for (int y = 0; y < heights.GetLength(1); y++)
-    //        {
-    //            float height = heights[x, y] * allSize.y; // Escalar la altura al tamaño real del terreno
-
-    //            if (height > maxHeight)
-    //            {
-    //                maxHeight = height;
-    //            }
-    //        }
-    //    }
-    //    return maxHeight;
-    //}
 
     public void Recalculate()
     {

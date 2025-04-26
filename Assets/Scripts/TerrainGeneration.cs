@@ -122,10 +122,15 @@ public class TerrainGenerationPerlinNoise : MonoBehaviour
         if (cities)
         {
             cities = false;
-            foreach(KingdomController k in manager.kingdoms)
-            {
-                k.generate = true;
-            }
+            Invoke("GenerateAllCities", 0.1f);
+        }
+    }
+
+    public void GenerateAllCities()
+    {
+        foreach (KingdomController k in manager.kingdoms)
+        {
+            k.generate = true;
         }
     }
 

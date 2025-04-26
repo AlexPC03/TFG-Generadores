@@ -149,7 +149,7 @@ public class CountryGenerator : MonoBehaviour
         GameObject go = new GameObject($"Pais_{pais.id}");
         go.transform.parent = this.transform.Find("Territorios");
         go.transform.localScale = new Vector3(1,-1,1);
-        go.transform.position = new Vector3(0,35,0);
+        go.transform.position = new Vector3(0, 290, 0);
 
         MeshFilter mf = go.AddComponent<MeshFilter>();
         MeshRenderer mr = go.AddComponent<MeshRenderer>();
@@ -227,8 +227,8 @@ public class CountryGenerator : MonoBehaviour
         LineRenderer lr = lineaGO.AddComponent<LineRenderer>();
 
         lr.positionCount = 2;
-        lr.SetPosition(0, new Vector3(p0.x, 36f, p0.y));
-        lr.SetPosition(1, new Vector3(p1.x, 36f, p1.y));
+        lr.SetPosition(0, new Vector3(p0.x, 291f, p0.y));
+        lr.SetPosition(1, new Vector3(p1.x, 291f, p1.y));
 
         lr.material = new Material(Shader.Find("Sprites/Default")); // Compatible con URP
         lr.startColor = lr.endColor = Color.black;

@@ -11,7 +11,7 @@ public class FlatResourceGenerator : LocatorFunctions
     public float maxDistanceRiver= 15f;
     public float maxDistanceDelta= 30f;
     public float forestDistanceMultiplicator= 2.25f;
-    private float regionSize = 5f; // Tamaño de la región a evaluar (en unidades del terreno)
+    private float regionSize = 3f; // Tamaño de la región a evaluar (en unidades del terreno)
     private int gridResolution = 5; // Número de puntos en la cuadrícula (más alto, más puntos)
     private float maxSlope = 0.25f; // Máxima inclinación permitida para que la región sea considerada plana
     public float fieldDistance = 15f; 
@@ -73,7 +73,7 @@ public class FlatResourceGenerator : LocatorFunctions
                         {
                             if (hit.point.y > coldHeight)
                             {
-                                if (Random.Range(0, 1f) < 0.33f)
+                                if (Random.Range(0, 1f) < 0.15f)
                                 {
                                     field = new GameObject("GreatMine");
                                     field.tag = "GreatMine";
@@ -83,7 +83,7 @@ public class FlatResourceGenerator : LocatorFunctions
                                     mr.material = new Material(Shader.Find("Sprites/Default")) { color = Color.magenta };
                                     field.transform.localScale = new Vector3(regionSize, regionSize * 1.5f, regionSize);
                                 }
-                                else if (Random.Range(0, 1f) < 0.33f)
+                                else if (Random.Range(0, 1f) < 0.15f)
                                 {
                                     field = new GameObject("SmallMine");
                                     field.tag = "SmallMine";

@@ -71,7 +71,7 @@ public class KingdomGenerator : MonoBehaviour
                             MeshFilter mf2 = a.AddComponent<MeshFilter>();
                             mf2.mesh = circleMesh;
                             MeshRenderer mr2 = a.AddComponent<MeshRenderer>();
-                            mr2.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(1,1,1,0.05f) };
+                            mr2.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(1,1,1,0.15f) };
                             a.transform.localScale = new Vector3(radio * 2, 20, radio * 2);
                             a.transform.position = new Vector3(pos.x, hit.point.y, pos.z);
                             a.transform.parent=kingdom.transform;
@@ -131,10 +131,13 @@ public class KingdomGenerator : MonoBehaviour
     public float GetValueInRadius(Vector3 center, float radius, List<ResourceInfo> objectsToCheck,KingdomController kingdom=null)
     {
         float totalValue = 0f;
-
+        if (kingdom != null)
+        {
+            kingdom.resources.Clear();
+        }
         foreach (ResourceInfo obj in objectsToCheck)
         {
-            if (obj == null) continue; // Evita errores con referencias nulas
+            if (obj == null) continue; // Evitar errores con referencias nulas
 
             float distance = Vector3.Distance(center, obj.transform.position);
             if (distance <= radius)
@@ -151,7 +154,10 @@ public class KingdomGenerator : MonoBehaviour
                 }
                 if (kingdom != null)
                 {
-                    obj.interestedKingdoms.Add(kingdom);
+                    if(!obj.interestedKingdoms.Contains(kingdom))
+                    {
+                        obj.interestedKingdoms.Add(kingdom);
+                    }
                     kingdom.resources.Add(obj.gameObject);
                 }
             }
@@ -169,8 +175,7 @@ public class KingdomGenerator : MonoBehaviour
                 k.resources.Clear();
                 manager.resetResourceInterests(k);
                 k.transform.localScale += new Vector3(3, 2, 3);
-                float r = Mathf.Clamp(manager.NearestKingdomDistance(k.transform.position) - 1, radio, radio * 1.5f);
-
+                float r = Mathf.Clamp(radio * 1.5f, radio, manager.NearestKingdomDistance(k.transform.position) - 1);
                 if (showRadius)
                 {
                     Destroy(k.transform.GetChild(0).gameObject);
@@ -178,12 +183,11 @@ public class KingdomGenerator : MonoBehaviour
                     MeshFilter mf2 = a.AddComponent<MeshFilter>();
                     mf2.mesh = circleMesh;
                     MeshRenderer mr2 = a.AddComponent<MeshRenderer>();
-                    mr2.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(1, 1, 1, 0.05f) };
-                    a.transform.localScale = new Vector3(r*2, 15, r*2);
+                    mr2.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(1, 1, 1, 0.15f) };
+                    a.transform.localScale = new Vector3(radio * 2 * 1.5f, 15, radio * 2 * 1.5f);
                     a.transform.position = k.transform.position;
                     a.transform.parent = k.transform;
-                }
-
+                }                
                 GetValueInRadius(k.transform.position, r, manager.resources, k);
                 k.size = KingdomController.Size.Grande;
                 k.SetType();
@@ -193,19 +197,20 @@ public class KingdomGenerator : MonoBehaviour
                 k.resources.Clear();
                 manager.resetResourceInterests(k);
                 k.transform.localScale += new Vector3(-2, -3, -2);
-                if(showRadius)
+                float r = Mathf.Clamp(radio * 0.75f, 0, manager.NearestKingdomDistance(k.transform.position) - 1);
+                if (showRadius)
                 {
                     Destroy(k.transform.GetChild(0).gameObject);
                     GameObject a = new GameObject("Radius");
                     MeshFilter mf2 = a.AddComponent<MeshFilter>();
                     mf2.mesh = circleMesh;
                     MeshRenderer mr2 = a.AddComponent<MeshRenderer>();
-                    mr2.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(1, 1, 1, 0.05f) };
-                    a.transform.localScale = new Vector3((radio * 2) * 0.75f, 15, (radio * 2) * 0.75f);
+                    mr2.material = new Material(Shader.Find("Sprites/Default")) { color = new Color(1, 1, 1, 0.15f) };
+                    a.transform.localScale = new Vector3(radio * 2 * 0.75f, 15, radio * 2 * 0.75f);
                     a.transform.position = k.transform.position;
                     a.transform.parent = k.transform;
                 }
-                GetValueInRadius(k.transform.position, radio * 0.75f, manager.resources, k);
+                GetValueInRadius(k.transform.position, r, manager.resources, k);
                 k.size = KingdomController.Size.Pequeño;
                 k.SetType();
             }
