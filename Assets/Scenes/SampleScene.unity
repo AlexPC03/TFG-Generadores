@@ -1279,7 +1279,7 @@ MonoBehaviour:
   decaimientoVecinos: 5
   boxMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   circleMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
-  showRadius: 1
+  showRadius: 0
 --- !u!114 &1244333473
 MonoBehaviour:
   m_ObjectHideFlags: 0
